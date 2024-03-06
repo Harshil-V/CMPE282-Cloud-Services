@@ -1,12 +1,25 @@
 import { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, Center, Container } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, Center, Container, useToast } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 // import { Auth } from 'aws-amplify';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const toast = useToast();
 
     const signIn = async () => {
+        if (!username || !password) {
+            toast({
+                title: "Missing fields",
+                description: "Please enter both username and password.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            });
+            return;
+        }
+
         try {
             // await Auth.signIn(username, password);
             alert('Logged in');
@@ -22,7 +35,8 @@ const Login = () => {
             <Center w="100%" h="100vh">
                 <Box
                     p={8}
-                    maxWidth="800px"
+                    width="400px" 
+                    maxW="md"
                     borderWidth={1}
                     borderRadius={8}
                     boxShadow="lg"
@@ -43,10 +57,10 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </FormControl>
-                    <Button mt={4} marginLeft={5} colorScheme="teal" onClick={signIn} isFullWidth>
+                    <Button mt={4} colorScheme="teal" onClick={signIn} width="full">
                         Log in
                     </Button>
-                    <Button mt={4} marginLeft={4} colorScheme="teal" onClick={signIn} isFullWidth>
+                    <Button as={Link} to="/register" mt={4} colorScheme="blue" width="full">
                         Register
                     </Button>
                 </Box>
