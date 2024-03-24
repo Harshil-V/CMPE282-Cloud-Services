@@ -22,5 +22,5 @@ data "aws_s3_bucket" "existing" {
 resource "aws_s3_object" "readme_file" {
   bucket = data.aws_s3_bucket.existing.bucket
   key    = "README.md"
-  source = "README.md"
+  source = "../README.md"
 }
