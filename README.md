@@ -1,1 +1,1 @@
-# CMPE282-Cloud-Services
+# CMPE282 Cloud Services
