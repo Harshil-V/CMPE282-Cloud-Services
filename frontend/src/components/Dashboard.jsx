@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Flex, Input, Text, Image, Spacer, Button, Grid, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Flex, Input, Text, Image, Spacer, Button, Grid, useBreakpointValue, useToast } from '@chakra-ui/react';
 
 const Dashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredImages, setFilteredImages] = useState([]);
-    const inputFileRef = useRef(null); // Ref for the hidden file input
+    const inputFileRef = useRef(null);
+    const toast = useToast();
+
     // const [images, setImages] = useState([
     //     // Mock data for images
     //     { id: 1, url: 'https://via.placeholder.com/150', name: 'Sunset' },
@@ -58,12 +60,33 @@ const Dashboard = () => {
         setFilteredImages(filtered);
     }, [searchTerm, images]);
 
-    const handleFileInputChange = (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-            // Process the selected file here
-            // For example, you might want to add the new image to your images state or upload it to a server
-            console.log("File selected:", files[0]);
+    const handleFileInputChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Example upload logic
+            try {
+                // Simulate an upload process
+                // In a real application, this part would involve uploading the file to a server
+                await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate upload delay
+
+                toast({
+                    title: "Upload successful.",
+                    description: "Your image has been uploaded successfully.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
+
+                // Update your images state here with the new image data
+            } catch (error) {
+                toast({
+                    title: "Upload failed.",
+                    description: "There was a problem uploading your image.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+            }
         }
     };
 
