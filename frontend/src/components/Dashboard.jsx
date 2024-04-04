@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Flex, Input, Text, Image, Container, Spacer, Button } from '@chakra-ui/react';
+import { Box, Flex, Input, Text, Image, Spacer, Button, Grid, useBreakpointValue } from '@chakra-ui/react';
 
 const Dashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -72,10 +72,17 @@ const Dashboard = () => {
         inputFileRef.current.click();
     };
 
+    const gridTemplateColumns = useBreakpointValue({
+        base: "repeat(2, 1fr)", // 2 columns on base/mobile screens
+        md: "repeat(3, 1fr)", // 3 columns on medium screens and up
+        lg: "repeat(4, 1fr)", // 4 columns on large screens
+        xl: "repeat(5, 1fr)", // 5 columns on extra large screens
+    });
+
     return (
         <>
             <Box bg="teal.400" color="white" p={4} w="full">
-                <Flex p={4} alignItems="center">
+                <Flex p={4} alignItems="center" flexWrap="wrap">
                     <Button colorScheme="teal">Home</Button>
                     <Button colorScheme="teal" ml={4}>Profile</Button>
                     <Button colorScheme="teal" ml={4}>Settings</Button>
@@ -83,19 +90,13 @@ const Dashboard = () => {
                     <Button colorScheme="red" variant="solid">Log out</Button>
                 </Flex>
             </Box>
-            <Flex direction="column" align="center" maxW={{ xl: "1100px" }} m="0 auto">
-                {/* <Box p={4} w="full" mb={6}>
+            <Flex direction="column" align="center" maxW={{ xl: "1100px" }} m="0 auto" px={[4, 8, 12]}>
+                <Flex w="full" alignItems="center" justifyContent="space-between" mb={6} mt={[4, 6, 8]} flexWrap="wrap">
                     <Input
                         placeholder="Search images by categories..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </Box> */}
-                <Flex p={4} w="full" alignItems="center" mb={6}>
-                    <Input
-                        placeholder="Search images by categories..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        flex="1"
                         mr={4}
                     />
                     <Button onClick={handleUploadClick} colorScheme="blue">Upload</Button>
@@ -103,24 +104,24 @@ const Dashboard = () => {
                         type="file"
                         ref={inputFileRef}
                         onChange={handleFileInputChange}
-                        style={{ display: 'none' }} // Hide the file input
-                        accept="image/*" // Accept images only
+                        style={{ display: 'none' }}
+                        accept="image/*"
                     />
                 </Flex>
-                <Flex wrap="wrap" justifyContent="left" gap={6}>
+                <Grid templateColumns={gridTemplateColumns} gap={6} w="full">
                     {filteredImages.map((image) => (
-                        <Box key={image.id} p={2} boxShadow="2xl" borderRadius="lg" _hover={{ boxShadow: "3xl" }} width="200px">
-                            <Image src={image.image} alt="image" boxSize="200px" objectFit="cover" borderRadius="md" />
-                            <Flex wrap="wrap" justify="center" mt={2}>
+                        <Box key={image.id} p={2} boxShadow="2xl" borderRadius="lg" _hover={{ boxShadow: "3xl" }} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+                            <Image src={image.image} alt={image.name} boxSize="200px" objectFit="cover" borderRadius="md" />
+                            <Flex justify="center" mt={2} wrap="nowrap" overflowX="auto">
                                 {image.categories.map((category, index) => (
-                                    <Text key={index} fontSize="xs" p={1} bg="gray.200" borderRadius="md" mx={1} my={1}>
+                                    <Text key={index} fontSize="xs" p={1} bg="gray.200" borderRadius="md" mx={1} my={1} whiteSpace="nowrap">
                                         {category}
                                     </Text>
                                 ))}
                             </Flex>
                         </Box>
                     ))}
-                </Flex>
+                </Grid>
             </Flex>
         </>
     );
