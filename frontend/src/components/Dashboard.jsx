@@ -4,77 +4,24 @@ import { Box, Flex, Input, Text, Image, Button, Spacer, Grid, useBreakpointValue
 import { DeleteIcon } from '@chakra-ui/icons';
 
 const Dashboard = () => {
+    const imagesPerPage = 10;
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredImages, setFilteredImages] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
     const inputFileRef = useRef(null);
     const toast = useToast();
 
-    // const [images, setImages] = useState([
-    //     // Mock data for images
-    //     { id: 1, url: 'https://via.placeholder.com/150', name: 'Sunset' },
-    //     { id: 2, url: 'https://via.placeholder.com/150', name: 'Forest' },
-    //     { id: 3, url: 'https://via.placeholder.com/150', name: 'Mountains' },
-    //     { id: 4, url: 'https://via.placeholder.com/150', name: 'Cityscape' },
-    //     { id: 5, url: 'https://via.placeholder.com/150', name: 'Ocean' },
-    //     // Add more images or replace URLs with real ones as needed
-    // ]);
-    // const [images, setImages] = useState([
-    //     {
-    //         "id": 1,
-    //         "categories": ["nature", "landscape", "flower", "hwhuksbefg"],
-    //         "image": "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg"
-    //     },
-    //     {
-    //         "id": 2,
-    //         "categories": ["city"],
-    //         "image": "https://worldstrides.com/wp-content/uploads/2015/07/iStock_000040849990_Large.jpg"
-    //     },
-    //     {
-    //         "id": 3,
-    //         "categories": ["space"],
-    //         "image": "https://webb.nasa.gov/content/webbLaunch/assets/images/images2023/oct-30-23-STScI-01HBBMJ8R6HTXP5W1EVEJ24D64-1K.jpg"
-    //     },
-    //     {
-    //         "id": 4,
-    //         "categories": ["nature", "landscape"],
-    //         "image": "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-nature-mountain-scenery-with-flowers-free-photo.jpg"
-    //     },
-    //     {
-    //         "id": 5,
-    //         "categories": ["city"],
-    //         "image": "https://st.depositphotos.com/1035350/2277/i/450/depositphotos_22772802-stock-photo-tokyo-cityscape.jpg"
-    //     },
-    //     {
-    //         "id": 6,
-    //         "categories": ["space"],
-    //         "image": "https://www.sciencenews.org/wp-content/uploads/2022/11/Hubble-Pillars-of-Creation.jpg"
-    //     },
-    //     {
-    //         "id": 7,
-    //         "categories": ["ocean", "nature"],
-    //         "image": "https://upload.wikimedia.org/wikipedia/commons/5/59/Beautiful_ocean_sunset.jpg"
-    //     },
-    //     {
-    //         "id": 8,
-    //         "categories": ["forest", "nature"],
-    //         "image": "https://cdn.pixabay.com/photo/2017/08/07/23/52/forest-2606799_960_720.jpg"
-    //     },
-    //     {
-    //         "id": 9,
-    //         "categories": ["historical", "city"],
-    //         "image": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Golconda_Fort_2.jpg"
-    //     }
-    // ]
-    // );
     const [images, setImages] = useState([
         {
             "id": 1,
-            "categories": ["nature", "landscape", "flower"],
+            "categories": ["nature", "landscape", "flower", "78"],
             "image": "https://example.com/stock-image-nature-mountain-flowers-1.jpg"
         },
         {
             "id": 2,
-            "categories": ["city"],
+            "categories": ["city","flower"],
             "image": "https://example.com/stock-image-cityscape-1.jpg"
         },
         {
@@ -218,38 +165,40 @@ const Dashboard = () => {
             "image": "https://example.com/stock-image-office-work-1.jpg"
         }
     ]
-    
+
     );
-
-
     useEffect(() => {
         const filtered = images.filter(image =>
             image.categories.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredImages(filtered);
+        setFilteredImages(filtered.slice(0, imagesPerPage));
+        setTotalPages(Math.ceil(filtered.length / imagesPerPage));
     }, [searchTerm, images]);
+
+    const handlePageClick = (page) => {
+        setCurrentPage(page);
+        const startIndex = (page - 1) * imagesPerPage;
+        const endIndex = startIndex + imagesPerPage;
+        setFilteredImages(images.slice(startIndex, endIndex));
+    };
 
     const handleFileInputChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Example upload logic
             try {
-                // Simulate an upload process
-                // In a real application, this part would involve uploading the file to a server
-                await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate upload delay
-
+                // Simulate file upload
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulating a file upload process
                 toast({
-                    title: "Upload successful.",
+                    title: "Upload successful",
                     description: "Your image has been uploaded successfully.",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
                 });
-
                 // Update your images state here with the new image data
             } catch (error) {
                 toast({
-                    title: "Upload failed.",
+                    title: "Upload failed",
                     description: "There was a problem uploading your image.",
                     status: "error",
                     duration: 5000,
@@ -259,15 +208,16 @@ const Dashboard = () => {
         }
     };
 
-    // Function to trigger the file input when the upload button is clicked
     const handleUploadClick = () => {
         inputFileRef.current.click();
     };
 
     const handleDeleteImage = (id) => {
-        setImages(images.filter(image => image.id !== id));
+        const updatedImages = images.filter(image => image.id !== id);
+        setImages(updatedImages);
+        handlePageClick(Math.max(1, Math.min(currentPage, Math.ceil(updatedImages.length / imagesPerPage))));
         toast({
-            title: "Image deleted.",
+            title: "Image deleted",
             description: "The image has been successfully deleted.",
             status: "info",
             duration: 5000,
@@ -276,10 +226,10 @@ const Dashboard = () => {
     };
 
     const gridTemplateColumns = useBreakpointValue({
-        base: "repeat(2, 1fr)", // 2 columns on base/mobile screens
-        md: "repeat(3, 1fr)", // 3 columns on medium screens and up
-        lg: "repeat(4, 1fr)", // 4 columns on large screens
-        xl: "repeat(5, 1fr)", // 5 columns on extra large screens
+        base: "repeat(2, 1fr)",
+        md: "repeat(3, 1fr)",
+        lg: "repeat(4, 1fr)",
+        xl: "repeat(5, 1fr)"
     });
 
     return (
@@ -313,8 +263,9 @@ const Dashboard = () => {
                 </Flex>
                 <Grid templateColumns={gridTemplateColumns} gap={6} w="full">
                     {filteredImages.map((image) => (
-                        <Box key={image.id} p={2} boxShadow="2xl" borderRadius="lg" _hover={{ boxShadow: "3xl" }} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-                            <Image src={image.image} alt={image.name} boxSize="180px" objectFit="cover" borderRadius="md" mb={2} /> {/* Added mb={2} here */}
+                        <Box key={image.id} p={2} boxShadow="2xl" borderRadius="lg" _hover={{ boxShadow: "3xl" }}
+                            display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+                            <Image src={image.image} alt={`Image ${image.id}`} boxSize="180px" objectFit="cover" borderRadius="md" mb={2} />
                             <Flex justify="center" w="full" overflowX="auto" px={2}>
                                 {image.categories.slice(0, 3).map((category, index) => (
                                     <Text key={index} fontSize="xs" p={1} bg="gray.200" borderRadius="md" mx={1} my={1} whiteSpace="nowrap">
@@ -330,36 +281,23 @@ const Dashboard = () => {
                                     variant="ghost"
                                     colorScheme="red"
                                     onClick={() => handleDeleteImage(image.id)}
-                                    mt={2} // Ensure spacing if needed
+                                    mt={2}
                                 />
                             </Flex>
                         </Box>
                     ))}
                 </Grid>
-                {/* <Grid templateColumns={gridTemplateColumns} gap={6} w="full">
-                    {filteredImages.map((image) => (
-                        <Box key={image.id} p={2} boxShadow="2xl" borderRadius="lg" _hover={{ boxShadow: "3xl" }} position="relative" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-                            <Image src={image.image} alt={image.name} boxSize="200px" objectFit="cover" borderRadius="md" />
-                            <Flex justify="space-between" align="center" w="full" mt={2} px={2}>
-                                <Flex overflowX="auto" wrap="nowrap">
-                                    {image.categories.slice(0, 3).map((category, index) => (
-                                        <Text key={index} fontSize="xs" p={1} bg="gray.200" borderRadius="md" mx={1} my={1} whiteSpace="nowrap">
-                                            {category}
-                                        </Text>
-                                    ))}
-                                </Flex>
-                                <IconButton
-                                    aria-label="Delete image"
-                                    icon={<DeleteIcon />}
-                                    size="sm"
-                                    variant="ghost"
-                                    colorScheme="red"
-                                    onClick={() => handleDeleteImage(image.id)}
-                                />
-                            </Flex>
-                        </Box>
+                <Flex mt="8" justify="center">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <Button
+                            key={i + 1}
+                            onClick={() => handlePageClick(i + 1)}
+                            mx={1}
+                            colorScheme={currentPage === i + 1 ? "teal" : "gray"}>
+                            {i + 1}
+                        </Button>
                     ))}
-                </Grid> */}
+                </Flex>
             </Flex>
         </>
     );
