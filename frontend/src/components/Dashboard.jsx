@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Flex, Input, Text, Image, Button, Spacer, Grid, useBreakpointValue, useToast, IconButton } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
+import Navbar from './NavBar';
 
 const Dashboard = () => {
     const imagesPerPage = 10;
@@ -17,156 +18,155 @@ const Dashboard = () => {
         {
             "id": 1,
             "categories": ["nature", "landscape", "flower", "78"],
-            "image": "https://example.com/stock-image-nature-mountain-flowers-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Nature"
         },
         {
             "id": 2,
-            "categories": ["city","flower"],
-            "image": "https://example.com/stock-image-cityscape-1.jpg"
+            "categories": ["city", "flower"],
+            "image": "https://via.placeholder.com/180?text=Cityscape"
         },
         {
             "id": 3,
             "categories": ["space"],
-            "image": "https://example.com/stock-image-space-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Space"
         },
         {
             "id": 4,
             "categories": ["nature", "landscape"],
-            "image": "https://example.com/stock-image-nature-mountain-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Mountain"
         },
         {
             "id": 5,
             "categories": ["city"],
-            "image": "https://example.com/stock-image-tokyo-cityscape-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Tokyo"
         },
         {
             "id": 6,
             "categories": ["space"],
-            "image": "https://example.com/stock-image-space-hubble-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Hubble"
         },
         {
             "id": 7,
             "categories": ["ocean", "nature"],
-            "image": "https://example.com/stock-image-ocean-sunset-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Ocean"
         },
         {
             "id": 8,
             "categories": ["forest", "nature"],
-            "image": "https://example.com/stock-image-forest-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Forest"
         },
         {
             "id": 9,
             "categories": ["historical", "city"],
-            "image": "https://example.com/stock-image-historical-city-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Historical"
         },
         {
             "id": 10,
             "categories": ["animals", "wildlife"],
-            "image": "https://example.com/stock-image-wildlife-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Wildlife"
         },
         {
             "id": 11,
             "categories": ["technology", "future"],
-            "image": "https://example.com/stock-image-technology-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Technology"
         },
         {
             "id": 12,
             "categories": ["sports", "action"],
-            "image": "https://example.com/stock-image-sports-action-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Sports"
         },
         {
             "id": 13,
             "categories": ["music", "festival"],
-            "image": "https://example.com/stock-image-music-festival-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Festival"
         },
         {
             "id": 14,
             "categories": ["art", "painting"],
-            "image": "https://example.com/stock-image-art-painting-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Art"
         },
         {
             "id": 15,
             "categories": ["winter", "snow"],
-            "image": "https://example.com/stock-image-winter-snow-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Winter"
         },
         {
             "id": 16,
             "categories": ["autumn", "leaves"],
-            "image": "https://example.com/stock-image-autumn-leaves-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Autumn"
         },
         {
             "id": 17,
             "categories": ["spring", "blossoms"],
-            "image": "https://example.com/stock-image-spring-blossoms-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Spring"
         },
         {
             "id": 18,
             "categories": ["summer", "beach"],
-            "image": "https://example.com/stock-image-summer-beach-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Beach"
         },
         {
             "id": 19,
             "categories": ["mountains", "hiking"],
-            "image": "https://example.com/stock-image-mountains-hiking-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Mountains"
         },
         {
             "id": 20,
             "categories": ["urban", "street art"],
-            "image": "https://example.com/stock-image-urban-street-art-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Street+Art"
         },
         {
             "id": 21,
             "categories": ["agriculture", "farming"],
-            "image": "https://example.com/stock-image-agriculture-farming-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Farming"
         },
         {
             "id": 22,
             "categories": ["desert", "landscape"],
-            "image": "https://example.com/stock-image-desert-landscape-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Desert"
         },
         {
             "id": 23,
             "categories": ["ocean", "marine life"],
-            "image": "https://example.com/stock-image-ocean-marine-life-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Marine+Life"
         },
         {
             "id": 24,
             "categories": ["night", "city lights"],
-            "image": "https://example.com/stock-image-night-city-lights-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Night+City"
         },
         {
             "id": 25,
             "categories": ["food", "cuisine"],
-            "image": "https://example.com/stock-image-food-cuisine-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Cuisine"
         },
         {
             "id": 26,
             "categories": ["architecture", "modern"],
-            "image": "https://example.com/stock-image-modern-architecture-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Architecture"
         },
         {
             "id": 27,
             "categories": ["people", "crowd"],
-            "image": "https://example.com/stock-image-people-crowd-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Crowd"
         },
         {
             "id": 28,
             "categories": ["children", "play"],
-            "image": "https://example.com/stock-image-children-play-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Play"
         },
         {
             "id": 29,
             "categories": ["vintage", "retro"],
-            "image": "https://example.com/stock-image-vintage-retro-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Retro"
         },
         {
             "id": 30,
             "categories": ["office", "work"],
-            "image": "https://example.com/stock-image-office-work-1.jpg"
+            "image": "https://via.placeholder.com/180?text=Office"
         }
-    ]
-
-    );
+    ]);
+    
     useEffect(() => {
         const filtered = images.filter(image =>
             image.categories.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
@@ -234,15 +234,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <Box bg="teal.400" color="white" p={4} w="full">
-                <Flex p={4} alignItems="center" flexWrap="wrap">
-                    <Button colorScheme="teal">Home</Button>
-                    <Button colorScheme="teal" ml={4}>Profile</Button>
-                    <Button colorScheme="teal" ml={4}>Settings</Button>
-                    <Spacer />
-                    <Button colorScheme="red" variant="solid">Log out</Button>
-                </Flex>
-            </Box>
+            <Navbar />
             <Flex direction="column" align="center" maxW={{ xl: "1200px" }} m="0 auto" px={[4, 8, 12]}>
                 <Flex w="full" alignItems="center" justifyContent="space-between" mb={6} mt={[4, 6, 8]} flexWrap="wrap">
                     <Input
@@ -287,7 +279,7 @@ const Dashboard = () => {
                         </Box>
                     ))}
                 </Grid>
-                <Flex mt="8" justify="center">
+                <Flex mt="8" mb="8" justify="center">
                     {Array.from({ length: totalPages }, (_, i) => (
                         <Button
                             key={i + 1}
