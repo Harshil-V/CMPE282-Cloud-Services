@@ -12,7 +12,6 @@ import java.util.List;
 
 @Controller 
 @RequestMapping(path="/user")
-@CrossOrigin(origins = "${server.cors.url}")
 public class UserController {
 	@Autowired
 	private UserService userService;

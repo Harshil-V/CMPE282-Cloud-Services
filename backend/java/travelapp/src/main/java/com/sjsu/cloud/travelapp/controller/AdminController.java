@@ -12,7 +12,6 @@ import com.sjsu.cloud.travelapp.service.AdminService;
 
 @Controller 
 @RequestMapping(path="/admin")
-@CrossOrigin(origins = "${server.cors.url}")
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
