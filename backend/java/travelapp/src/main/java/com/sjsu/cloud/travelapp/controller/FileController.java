@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/file")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "${server.cors.url}")
 public class FileController {
 
 	@Autowired
