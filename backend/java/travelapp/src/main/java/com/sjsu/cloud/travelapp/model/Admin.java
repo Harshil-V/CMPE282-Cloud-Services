@@ -1,10 +1,14 @@
 package com.sjsu.cloud.travelapp.model;
 
+import java.time.LocalDateTime;
+
 public class Admin {
 	private String adminEmail;
     private String adminFirstName;
 	private String adminLastName;
     private String adminPassword;
+
+	private LocalDateTime joinDate;
     
     /**
 	 * @param adminEmail
@@ -12,12 +16,14 @@ public class Admin {
 	 * @param adminLastName
 	 * @param adminPassword
 	 */
-	public Admin(String adminEmail, String adminFirstName, String adminLastName, String adminPassword) {
+	public Admin(String adminEmail, String adminFirstName, String adminLastName,
+				 String adminPassword, LocalDateTime joinDate) {
 		super();
 		this.adminEmail = adminEmail;
 		this.adminFirstName = adminFirstName;
 		this.adminLastName = adminLastName;
 		this.adminPassword = adminPassword;
+		this.joinDate = joinDate;
 	}
 	
 	public Admin() {
@@ -54,5 +60,13 @@ public class Admin {
 	
 	public void setAdminPassword(String adminPassword) {
 		this.adminPassword = adminPassword;
+	}
+
+	public LocalDateTime getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(LocalDateTime joinDate) {
+		this.joinDate = joinDate;
 	}
 }

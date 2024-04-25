@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,17 @@ public class UserService {
 		}
 	}
 
+	@RequestMapping(path="/allUsers")
 	public ResponseEntity<?> getAllUsers() {
 		try {
-			List<UserEntity> userList = new ArrayList<>();
-			userRepository.findAll().forEach(userList::add);
-			return new ResponseEntity<>(userList, HttpStatus.OK);
+			List<User> userResponseList = new ArrayList<>();
+			userRepository.findAll().forEach(user -> userResponseList.add(new User(
+					user.getUserEmail(),
+					user.getUserFirstName(),
+					user.getUserLastName(),
+					user.getJoinDate()
+			)));
+			return new ResponseEntity<>(userResponseList, HttpStatus.OK);
 		} catch (DataAccessException e) {
 			handleException("Error while fetching all users", e);
 			return new ResponseEntity<>("An error occurred while fetching all users.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -51,7 +58,13 @@ public class UserService {
 			if (userEntity == null) {
 				return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
 			} else {
-				return new ResponseEntity<>(userEntity, HttpStatus.OK);
+				User userResponse = new User(
+						userEntity.getUserEmail(),
+						userEntity.getUserFirstName(),
+						userEntity.getUserLastName(),
+						userEntity.getJoinDate()
+				);
+				return new ResponseEntity<>(userResponse, HttpStatus.OK);
 			}
 		} catch (DataAccessException e) {
 			handleException("Error while getting user", e);

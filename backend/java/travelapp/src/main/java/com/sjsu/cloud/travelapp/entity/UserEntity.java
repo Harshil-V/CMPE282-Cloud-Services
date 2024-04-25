@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user")
@@ -20,7 +21,21 @@ public class UserEntity {
     
 	@Column(name="user_password")
 	private String userPassword;
-	  
+
+	@Column(name="join_date")
+	private LocalDateTime joinDate;
+
+	public UserEntity(String userEmail, String userFirstName, String userLastName, String userPassword, LocalDateTime joinDate) {
+		this.userEmail = userEmail;
+		this.userFirstName = userFirstName;
+		this.userLastName = userLastName;
+		this.userPassword = userPassword;
+		this.joinDate = joinDate;
+	}
+
+	public UserEntity() {
+	}
+
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -44,5 +59,13 @@ public class UserEntity {
 	}
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public LocalDateTime getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(LocalDateTime joinDate) {
+		this.joinDate = joinDate;
 	}
 }
