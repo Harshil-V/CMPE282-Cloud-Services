@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Flex, Input, Text, Image, Button, Spacer, Grid, useBreakpointValue, useToast, IconButton } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { Box, Flex, Input, Text, Image, Button, Grid, useBreakpointValue, useToast, IconButton } from '@chakra-ui/react';
+import { DeleteIcon, DownloadIcon } from '@chakra-ui/icons';
 import Navbar from './NavBar';
 
 const Dashboard = () => {
@@ -166,7 +166,7 @@ const Dashboard = () => {
             "image": "https://via.placeholder.com/180?text=Office"
         }
     ]);
-    
+
     useEffect(() => {
         const filtered = images.filter(image =>
             image.categories.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
@@ -195,7 +195,7 @@ const Dashboard = () => {
                     duration: 5000,
                     isClosable: true,
                 });
-                // Update your images state here with the new image data
+                // Optionally, update your images state here with the new image data
             } catch (error) {
                 toast({
                     title: "Upload failed",
@@ -224,6 +224,35 @@ const Dashboard = () => {
             isClosable: true,
         });
     };
+
+    const handleDownloadImage = (url, filename) => {
+        
+        fetch(url, { mode: 'no-cors' })
+            .then(response => response.blob())
+            .then(blob => {
+                
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.setAttribute('download', filename);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode.removeChild(link);
+                
+                URL.revokeObjectURL(blobUrl);
+            })
+            .catch(e => {
+                console.error('Download failed', e);
+                toast({
+                    title: "Download failed",
+                    description: "Unable to download the image.",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+            });
+    };
+
 
     const gridTemplateColumns = useBreakpointValue({
         base: "repeat(2, 1fr)",
@@ -266,6 +295,15 @@ const Dashboard = () => {
                                 ))}
                             </Flex>
                             <Flex justify="flex-end" w="full" px={2}>
+                                <IconButton
+                                    aria-label="Download image"
+                                    icon={<DownloadIcon />}
+                                    size="sm"
+                                    variant="ghost"
+                                    colorScheme="teal"
+                                    onClick={() => handleDownloadImage(image.image, `download-${image.id}.png`)}
+                                    mt={2}
+                                />
                                 <IconButton
                                     aria-label="Delete image"
                                     icon={<DeleteIcon />}
