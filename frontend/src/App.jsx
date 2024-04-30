@@ -7,6 +7,8 @@ import Register from './components/Register';
 import Translation from './components/Translate';
 import Textract from './components/Textract';
 
+//Auth
+
 function App() {
   return (
     <ChakraProvider>
