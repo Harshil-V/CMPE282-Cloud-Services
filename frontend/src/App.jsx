@@ -7,8 +7,6 @@ import Register from './components/Register';
 import Translation from './components/Translate';
 import Textract from './components/Textract';
 
-//Auth
-
 function App() {
   return (
     <ChakraProvider>
@@ -19,7 +17,6 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/translate" element={<Translation />} />
             <Route path="/textract" element={<Textract />} />
-         
         </Routes>
       </Router>
     </ChakraProvider>
