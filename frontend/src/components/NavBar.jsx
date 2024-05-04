@@ -19,10 +19,11 @@ const Navbar = () => {
   async function handleFetchUserAttributes() {
     try {
       const userAttributes = await fetchUserAttributes();
+      
       setAuthUser(userAttributes.email);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error, "error fetching user attributes");
       setLoading(false);
     }
   }

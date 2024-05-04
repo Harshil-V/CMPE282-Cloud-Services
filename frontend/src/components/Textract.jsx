@@ -76,15 +76,26 @@ const Textract = () => {
                 <Box p={6} bg="gray.100" w="100%" maxW="3xl" borderWidth="1px" borderRadius="lg" overflow="hidden">
                     <Center><Text fontSize="3xl" mb={5}>Extract Text From Images</Text></Center>
                     <VStack spacing={6}>
-                        <Input type="file" onChange={handleFileChange} p={2} />
+                        <label htmlFor="file-upload">
+                            <Button as="span" colorScheme="blue">
+                                Select File
+                            </Button>
+                            <Input
+                                id="file-upload"
+                                type="file"
+                                onChange={handleFileChange}
+                                accept="image/*"
+                                display="none"
+                            />
+                        </label>
                         <HStack spacing={5}>
-                            <Button colorScheme="blue" onClick={handleUpload} isDisabled={!file}>Upload</Button>
+                            <Button colorScheme="green" onClick={handleUpload} isDisabled={!file}>Upload</Button>
                             <Button colorScheme="gray" onClick={handleClear}>Clear</Button>
                         </HStack>
 
                         {file && (
-                            <Box my={4} boxSize="lg">
-                                <Image src={URL.createObjectURL(file)} alt="Selected File" />
+                            <Box my={4} boxSize="100%" overflow="hidden">
+                                <Image src={URL.createObjectURL(file)} alt="Selected File" objectFit="contain" />
                                 <Text mt={2}>Image Preview</Text>
                             </Box>
                         )}

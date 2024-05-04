@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from "react";
@@ -27,10 +28,13 @@ import {
 import { DeleteIcon, DownloadIcon } from "@chakra-ui/icons";
 import Navbar from "./NavBar";
 import { debounce } from "lodash"; // For debouncing
+import { fetchUserAttributes } from "aws-amplify/auth";
 
+// Modal for adding descriptions to images
 const DescriptionModal = ({ isOpen, onClose, onSubmit }) => {
   const [description, setDescription] = useState("");
   const toast = useToast();
+
   const handleSubmit = () => {
     if (description.trim() === "") {
       toast({
@@ -68,385 +72,103 @@ const DescriptionModal = ({ isOpen, onClose, onSubmit }) => {
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={handleSubmit}>
-            Save
-          </Button>
-
-          <Button
-            ml="3"
-            onClick={handleCancel}
-          > Cancel </Button>
+          <Button onClick={handleSubmit}>Save</Button>
+          <Button ml="3" onClick={handleCancel}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-const mockImages = [
-  {
-    id: 1,
-    categories: ["nature", "landscape", "flower", "78"],
-    image: "https://via.placeholder.com/180?text=Nature",
-  },
-  {
-    id: 2,
-    categories: ["city", "flower"],
-    image: "https://via.placeholder.com/180?text=Cityscape",
-  },
-  {
-    id: 3,
-    categories: ["space"],
-    image: "https://via.placeholder.com/180?text=Space",
-  },
-  {
-    id: 4,
-    categories: ["nature", "landscape"],
-    image: "https://via.placeholder.com/180?text=Mountain",
-  },
-  {
-    id: 5,
-    categories: ["city"],
-    image: "https://via.placeholder.com/180?text=Tokyo",
-  },
-  {
-    id: 6,
-    categories: ["space"],
-    image: "https://via.placeholder.com/180?text=Hubble",
-  },
-  {
-    id: 7,
-    categories: ["ocean", "nature"],
-    image: "https://via.placeholder.com/180?text=Ocean",
-  },
-  {
-    id: 8,
-    categories: ["forest", "nature"],
-    image: "https://via.placeholder.com/180?text=Forest",
-  },
-  {
-    id: 9,
-    categories: ["historical", "city"],
-    image: "https://via.placeholder.com/180?text=Historical",
-  },
-  {
-    id: 10,
-    categories: ["animals", "wildlife"],
-    image: "https://via.placeholder.com/180?text=Wildlife",
-  },
-  {
-    id: 11,
-    categories: ["technology", "future"],
-    image: "https://via.placeholder.com/180?text=Technology",
-  },
-  {
-    id: 12,
-    categories: ["sports", "action"],
-    image: "https://via.placeholder.com/180?text=Sports",
-  },
-  {
-    id: 13,
-    categories: ["music", "festival"],
-    image: "https://via.placeholder.com/180?text=Festival",
-  },
-  {
-    id: 14,
-    categories: ["art", "painting"],
-    image: "https://via.placeholder.com/180?text=Art",
-  },
-  {
-    id: 15,
-    categories: ["winter", "snow"],
-    image: "https://via.placeholder.com/180?text=Winter",
-  },
-  {
-    id: 16,
-    categories: ["autumn", "leaves"],
-    image: "https://via.placeholder.com/180?text=Autumn",
-  },
-  {
-    id: 17,
-    categories: ["spring", "blossoms"],
-    image: "https://via.placeholder.com/180?text=Spring",
-  },
-  {
-    id: 18,
-    categories: ["summer", "beach"],
-    image: "https://via.placeholder.com/180?text=Beach",
-  },
-  {
-    id: 19,
-    categories: ["mountains", "hiking"],
-    image: "https://via.placeholder.com/180?text=Mountains",
-  },
-  {
-    id: 20,
-    categories: ["urban", "street art"],
-    image: "https://via.placeholder.com/180?text=Street+Art",
-  },
-  {
-    id: 21,
-    categories: ["agriculture", "farming"],
-    image: "https://via.placeholder.com/180?text=Farming",
-  },
-  {
-    id: 22,
-    categories: ["desert", "landscape"],
-    image: "https://via.placeholder.com/180?text=Desert",
-  },
-  {
-    id: 23,
-    categories: ["ocean", "marine life"],
-    image: "https://via.placeholder.com/180?text=Marine+Life",
-  },
-  {
-    id: 24,
-    categories: ["night", "city lights"],
-    image: "https://via.placeholder.com/180?text=Night+City",
-  },
-  {
-    id: 25,
-    categories: ["food", "cuisine"],
-    image: "https://via.placeholder.com/180?text=Cuisine",
-  },
-  {
-    id: 26,
-    categories: ["architecture", "modern"],
-    image: "https://via.placeholder.com/180?text=Architecture",
-  },
-  {
-    id: 27,
-    categories: ["people", "crowd"],
-    image: "https://via.placeholder.com/180?text=Crowd",
-  },
-  {
-    id: 28,
-    categories: ["children", "play"],
-    image: "https://via.placeholder.com/180?text=Play",
-  },
-  {
-    id: 29,
-    categories: ["vintage", "retro"],
-    image: "https://via.placeholder.com/180?text=Retro",
-  },
-  {
-    id: 30,
-    categories: ["office", "work"],
-    image: "https://via.placeholder.com/180?text=Office",
-  },
-];
-
+// Main Dashboard Component
 const Dashboard = () => {
   const imagesPerPage = 10;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
+  const [images, setImages] = useState([]);
+  const [newImage, setNewImage] = useState(null);
   const errorOccured = useRef(false);
-
   const inputFileRef = useRef(null);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [authUser, setAuthUser] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // const [images, setImages] = useState([
-  //   {
-  //     id: 1,
-  //     categories: ["nature", "landscape", "flower", "78"],
-  //     image: "https://via.placeholder.com/180?text=Nature",
-  //   },
-  //   {
-  //     id: 2,
-  //     categories: ["city", "flower"],
-  //     image: "https://via.placeholder.com/180?text=Cityscape",
-  //   },
-  //   {
-  //     id: 3,
-  //     categories: ["space"],
-  //     image: "https://via.placeholder.com/180?text=Space",
-  //   },
-  //   {
-  //     id: 4,
-  //     categories: ["nature", "landscape"],
-  //     image: "https://via.placeholder.com/180?text=Mountain",
-  //   },
-  //   {
-  //     id: 5,
-  //     categories: ["city"],
-  //     image: "https://via.placeholder.com/180?text=Tokyo",
-  //   },
-  //   {
-  //     id: 6,
-  //     categories: ["space"],
-  //     image: "https://via.placeholder.com/180?text=Hubble",
-  //   },
-  //   {
-  //     id: 7,
-  //     categories: ["ocean", "nature"],
-  //     image: "https://via.placeholder.com/180?text=Ocean",
-  //   },
-  //   {
-  //     id: 8,
-  //     categories: ["forest", "nature"],
-  //     image: "https://via.placeholder.com/180?text=Forest",
-  //   },
-  //   {
-  //     id: 9,
-  //     categories: ["historical", "city"],
-  //     image: "https://via.placeholder.com/180?text=Historical",
-  //   },
-  //   {
-  //     id: 10,
-  //     categories: ["animals", "wildlife"],
-  //     image: "https://via.placeholder.com/180?text=Wildlife",
-  //   },
-  //   {
-  //     id: 11,
-  //     categories: ["technology", "future"],
-  //     image: "https://via.placeholder.com/180?text=Technology",
-  //   },
-  //   {
-  //     id: 12,
-  //     categories: ["sports", "action"],
-  //     image: "https://via.placeholder.com/180?text=Sports",
-  //   },
-  //   {
-  //     id: 13,
-  //     categories: ["music", "festival"],
-  //     image: "https://via.placeholder.com/180?text=Festival",
-  //   },
-  //   {
-  //     id: 14,
-  //     categories: ["art", "painting"],
-  //     image: "https://via.placeholder.com/180?text=Art",
-  //   },
-  //   {
-  //     id: 15,
-  //     categories: ["winter", "snow"],
-  //     image: "https://via.placeholder.com/180?text=Winter",
-  //   },
-  //   {
-  //     id: 16,
-  //     categories: ["autumn", "leaves"],
-  //     image: "https://via.placeholder.com/180?text=Autumn",
-  //   },
-  //   {
-  //     id: 17,
-  //     categories: ["spring", "blossoms"],
-  //     image: "https://via.placeholder.com/180?text=Spring",
-  //   },
-  //   {
-  //     id: 18,
-  //     categories: ["summer", "beach"],
-  //     image: "https://via.placeholder.com/180?text=Beach",
-  //   },
-  //   {
-  //     id: 19,
-  //     categories: ["mountains", "hiking"],
-  //     image: "https://via.placeholder.com/180?text=Mountains",
-  //   },
-  //   {
-  //     id: 20,
-  //     categories: ["urban", "street art"],
-  //     image: "https://via.placeholder.com/180?text=Street+Art",
-  //   },
-  //   {
-  //     id: 21,
-  //     categories: ["agriculture", "farming"],
-  //     image: "https://via.placeholder.com/180?text=Farming",
-  //   },
-  //   {
-  //     id: 22,
-  //     categories: ["desert", "landscape"],
-  //     image: "https://via.placeholder.com/180?text=Desert",
-  //   },
-  //   {
-  //     id: 23,
-  //     categories: ["ocean", "marine life"],
-  //     image: "https://via.placeholder.com/180?text=Marine+Life",
-  //   },
-  //   {
-  //     id: 24,
-  //     categories: ["night", "city lights"],
-  //     image: "https://via.placeholder.com/180?text=Night+City",
-  //   },
-  //   {
-  //     id: 25,
-  //     categories: ["food", "cuisine"],
-  //     image: "https://via.placeholder.com/180?text=Cuisine",
-  //   },
-  //   {
-  //     id: 26,
-  //     categories: ["architecture", "modern"],
-  //     image: "https://via.placeholder.com/180?text=Architecture",
-  //   },
-  //   {
-  //     id: 27,
-  //     categories: ["people", "crowd"],
-  //     image: "https://via.placeholder.com/180?text=Crowd",
-  //   },
-  //   {
-  //     id: 28,
-  //     categories: ["children", "play"],
-  //     image: "https://via.placeholder.com/180?text=Play",
-  //   },
-  //   {
-  //     id: 29,
-  //     categories: ["vintage", "retro"],
-  //     image: "https://via.placeholder.com/180?text=Retro",
-  //   },
-  //   {
-  //     id: 30,
-  //     categories: ["office", "work"],
-  //     image: "https://via.placeholder.com/180?text=Office",
-  //   },
-  // ]);
-
-  const [images, setImages] = useState([]);
-  const [newImage, setNewImage] = useState(null);
-
-  // Debounced filtering function to avoid frequent re-renders
+  // Debounced filtering function
   const debouncedFilter = debounce(() => {
-    const filtered = images.filter((image) =>
-      image.categories
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
+    const filtered = images.filter((image) => {
+      // Check that tags exist and filter based on the search term
+      return (
+        image &&
+        Array.isArray(image.tags) &&
+        image.tags
+          .map((tag) => tag.tagName)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+    });
     setTotalPages(Math.ceil(filtered.length / imagesPerPage));
     setFilteredImages(filtered.slice(0, imagesPerPage));
   }, 300);
 
+  // Fetch user attributes to get the email
+  async function handleFetchUserAttributes() {
+    try {
+      const userAttributes = await fetchUserAttributes();
+      setAuthUser(userAttributes.email);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
+    handleFetchUserAttributes();
+  }, []);
+
+  // Fetch images data
+  useEffect(() => {
+    if (!authUser) return;
+
     const fetchImageData = async () => {
       try {
-        const response = await fetch("http:localhost:8000/api/images");
+        const response = await fetch(`http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/getUserFilesDetails/${authUser}`);
         if (response.ok) {
           const data = await response.json();
-          setImages(data);
+          console.log(data);
+          setImages(data); // Assuming single image object, wrap in an array
         } else {
           throw new Error("Failed to fetch images");
         }
       } catch (error) {
+        console.error("Error fetching images:", error);
         if (!errorOccured.current) {
-          console.error("Error fetching images:", error);
-          toast({
-            title: "An error occurred",
-            description: "Failed to fetch images.",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
           errorOccured.current = true;
-
-          setImages(mockImages);
         }
+        toast({
+          title: "An error occurred",
+          description: "Failed to fetch images.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     };
 
     fetchImageData();
-    debouncedFilter();
-  }, [searchTerm, images, debouncedFilter, toast]);
+    console.log(authUser);
+    console.log("filter",images);
+  }, [authUser, toast]);
 
+  useEffect(() => {
+    debouncedFilter();
+  }, [searchTerm, imagesPerPage, debouncedFilter]);
+
+  // Handle pagination
   const handlePageClick = (page) => {
     setCurrentPage(page);
     const startIndex = (page - 1) * imagesPerPage;
@@ -454,11 +176,11 @@ const Dashboard = () => {
     setFilteredImages(images.slice(startIndex, endIndex));
   };
 
+  // Handle file input change
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       if (file.size > 20 * 1024 * 1024) {
-        // Check if the file size exceeds 20 MB
         toast({
           title: "File too large",
           description: "Please choose a file smaller than 20 MB.",
@@ -474,6 +196,7 @@ const Dashboard = () => {
     }
   };
 
+  // Upload image
   const handleImageUpload = async (file, description) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -510,11 +233,12 @@ const Dashboard = () => {
     }
   };
 
+  // Submit description for new image
   const handleDescriptionSubmit = async (description) => {
     if (newImage) {
       try {
         await handleImageUpload(newImage, description);
-        setNewImage(null); // Clear the stored file
+        setNewImage(null);
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -525,8 +249,9 @@ const Dashboard = () => {
     inputFileRef.current.click();
   };
 
-  const handleDeleteImage = (id) => {
-    const updatedImages = images.filter((image) => image.id !== id);
+  // Delete image
+  const handleDeleteImage = (fileName) => {
+    const updatedImages = images.filter((image) => image.fileName !== fileName);
     setImages(updatedImages);
     handlePageClick(
       Math.max(
@@ -543,30 +268,37 @@ const Dashboard = () => {
     });
   };
 
-  const handleDownloadImage = (url, filename) => {
-    fetch(url, { mode: "no-cors" })
-      .then((response) => response.blob())
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode.removeChild(link);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((e) => {
-        console.error("Download failed", e);
-        toast({
-          title: "Download failed",
-          description: "Unable to download the image.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-      });
+  // Download image
+  const handleDownloadImage = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    // fetch(url, { mode: "no-cors" })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! Status: ${response.status}`);
+    //     }
+    //     return response.blob();
+    //   })
+    //   .then((blob) => {
+    //     // Create a blob URL that can be opened in a new tab
+    //     const blobUrl = URL.createObjectURL(blob);
+    //     // Open the blob URL in a new tab
+    //     window.open(blobUrl, '_blank', 'noopener,noreferrer');
+    //     // Optionally revoke the blob URL to free memory
+    //     URL.revokeObjectURL(blobUrl);
+    //   })
+    //   .catch((e) => {
+    //     console.error("Failed to open image", e);
+    //     toast({
+    //       title: "Image Open Failed",
+    //       description: "Unable to open the image in a new tab.",
+    //       status: "error",
+    //       duration: 5000,
+    //       isClosable: true,
+    //     });
+    //   });
   };
+  
+  
 
   const gridTemplateColumns = useBreakpointValue({
     base: "repeat(2, 1fr)",
@@ -574,6 +306,7 @@ const Dashboard = () => {
     lg: "repeat(4, 1fr)",
     xl: "repeat(5, 1fr)",
   });
+
   return (
     <>
       <Navbar />
@@ -584,7 +317,7 @@ const Dashboard = () => {
         m="0 auto"
         px={[4, 8, 12]}
       >
-        <Heading mt={3} as='h5' size='lg'>
+        <Heading mt={3} as="h5" size="lg">
           Your Image Library
         </Heading>
         <Flex
@@ -595,9 +328,8 @@ const Dashboard = () => {
           mt={[4, 6, 8]}
           flexWrap="wrap"
         >
-
           <Input
-            placeholder="Search images by categories..."
+            placeholder="Search images by tags..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             flex="1"
@@ -615,9 +347,9 @@ const Dashboard = () => {
           />
         </Flex>
         <Grid templateColumns={gridTemplateColumns} gap={6} w="full">
-          {filteredImages.map((image) => (
+          {filteredImages.map((image, index) => (
             <Box
-              key={image.id}
+              key={index}
               p={2}
               boxShadow="2xl"
               borderRadius="lg"
@@ -628,17 +360,18 @@ const Dashboard = () => {
               justifyContent="center"
             >
               <Image
-                src={image.image}
-                alt={`Image ${image.id}`}
+                src={image.fileURL}
+                alt={`Image ${image.fileDesc}`}
                 boxSize="180px"
                 objectFit="cover"
                 borderRadius="md"
                 mb={2}
               />
+              {/* <Text mb={2} fontWeight="bold">{image.fileDesc}</Text> */}
               <Flex justify="center" w="full" overflowX="auto" px={2}>
-                {image.categories.slice(0, 3).map((category, index) => (
+                {Array.isArray(image.tags) && image.tags.slice(0, 3).map((tag, tagIndex) => (
                   <Text
-                    key={index}
+                    key={tagIndex}
                     fontSize="xs"
                     p={1}
                     bg="gray.200"
@@ -647,7 +380,7 @@ const Dashboard = () => {
                     my={1}
                     whiteSpace="nowrap"
                   >
-                    {category}
+                    {tag.tagName}
                   </Text>
                 ))}
               </Flex>
@@ -659,7 +392,7 @@ const Dashboard = () => {
                   variant="ghost"
                   colorScheme="teal"
                   onClick={() =>
-                    handleDownloadImage(image.image, `download-${image.id}.png`)
+                    handleDownloadImage(image.fileURL, `download-${image.fileName}`)
                   }
                   mt={2}
                 />
@@ -669,7 +402,7 @@ const Dashboard = () => {
                   size="sm"
                   variant="ghost"
                   colorScheme="red"
-                  onClick={() => handleDeleteImage(image.id)}
+                  onClick={() => handleDeleteImage(image.fileName)}
                   mt={2}
                 />
               </Flex>
