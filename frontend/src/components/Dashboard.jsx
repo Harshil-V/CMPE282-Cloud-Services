@@ -163,7 +163,7 @@ const Dashboard = () => {
 
     fetchImageData();
     console.log(authUser);
-    console.log("filter",images);
+    console.log("filter", images);
   }, [authUser, toast]);
 
   useEffect(() => {
@@ -206,13 +206,13 @@ const Dashboard = () => {
     formData.append('fileDesc', description);
     formData.append('versionNo', 1);
     formData.append('userEmail', authUser);
-    
-  
+
+
     // Debug: Check the contents of the form data
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-  
+
     try {
       // Make an Axios request to upload the image
       const response = await axios.post(
@@ -224,41 +224,54 @@ const Dashboard = () => {
           },
         }
       );
-  
+
       console.log(response);
 
-      alert(`${response.data}`);
+      // alert(`${response.data}`);
 
       if (response.status === 200) {
         // Extract the data and update the images state
         const data = response.data;
         setImages((prevImages) => [...prevImages, data]);
-  
-        // Show a success message
-        toast({
-          title: 'Upload successful',
-          description: 'Your image has been uploaded successfully.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-        location.reload();
+
+        if (response.data === 'File has been deleted due to inappropriate content uploaded!') {
+          toast({
+            title: 'Upload failed',
+            description: response.data,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          // Show a success message
+          toast({
+            title: 'Upload successful',
+            description: 'Your image has been uploaded successfully.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+          location.reload();
+        }
+
       } else {
         throw new Error('Upload failed');
       }
     } catch (error) {
       // Handle the error with a toast notification
+
       console.error('Error uploading image:', error);
       toast({
         title: 'Upload failed',
-        description: 'There was a problem uploading your image.',
+        description: error,
         status: 'error',
         duration: 5000,
         isClosable: true,
       });
+      alert('Error uploading image:', error.message || 'An error occurred');
     }
   };
-  
+
 
   // Submit description for new image
   const handleDescriptionSubmit = async (description) => {
@@ -277,51 +290,51 @@ const Dashboard = () => {
   };
 
   // Delete image
-// Function to delete an image by its fileName via API and update the local grid
-const handleDeleteImage = async (fileName) => {
-  try {
-    // Call the API to delete the image
-    const response = await fetch(`http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/delete/${fileName}`, {
-      method: 'DELETE',
-    });
+  // Function to delete an image by its fileName via API and update the local grid
+  const handleDeleteImage = async (fileName) => {
+    try {
+      // Call the API to delete the image
+      const response = await fetch(`http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/delete/${fileName}`, {
+        method: 'DELETE',
+      });
 
-    // Check if the response is OK (status code 200-299)
-    if (!response.ok) {
-      throw new Error(`Failed to delete image: ${response.statusText}`);
+      // Check if the response is OK (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`Failed to delete image: ${response.statusText}`);
+      }
+
+      // Remove the image from the local list
+      const updatedImages = images.filter((image) => image.fileName !== fileName);
+      setImages(updatedImages);
+
+      // Adjust the pagination
+      handlePageClick(
+        Math.max(
+          1,
+          Math.min(currentPage, Math.ceil(updatedImages.length / imagesPerPage))
+        )
+      );
+
+      // Show success notification
+      toast({
+        title: 'Image deleted',
+        description: 'The image has been successfully deleted.',
+        status: 'info',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      // Handle any errors during the API call
+      toast({
+        title: 'Error deleting image',
+        description: `Unable to delete the image: ${error.message}`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      console.error('Error deleting image:', error);
     }
-
-    // Remove the image from the local list
-    const updatedImages = images.filter((image) => image.fileName !== fileName);
-    setImages(updatedImages);
-
-    // Adjust the pagination
-    handlePageClick(
-      Math.max(
-        1,
-        Math.min(currentPage, Math.ceil(updatedImages.length / imagesPerPage))
-      )
-    );
-
-    // Show success notification
-    toast({
-      title: 'Image deleted',
-      description: 'The image has been successfully deleted.',
-      status: 'info',
-      duration: 5000,
-      isClosable: true,
-    });
-  } catch (error) {
-    // Handle any errors during the API call
-    toast({
-      title: 'Error deleting image',
-      description: `Unable to delete the image: ${error.message}`,
-      status: 'error',
-      duration: 5000,
-      isClosable: true,
-    });
-    console.error('Error deleting image:', error);
-  }
-};
+  };
 
 
   // Download image
@@ -353,8 +366,8 @@ const handleDeleteImage = async (fileName) => {
     //     });
     //   });
   };
-  
-  
+
+
 
   const gridTemplateColumns = useBreakpointValue({
     base: "repeat(2, 1fr)",

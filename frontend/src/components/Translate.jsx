@@ -26,7 +26,7 @@ const Translation = () => {
         console.log(`Code: ${selectLanguageCode}`)
         setAudioUrl('');
         try {
-            const response = await axios.post("http://myalb-1741799579.us-west-2.elb.amazonaws.com/translate/", {
+            const response = await axios.post("http://ec2-54-90-197-158.compute-1.amazonaws.com:4000/translate/", {
                 text: inputText,
                 language: selectLanguageCode
             });
@@ -70,6 +70,20 @@ const Translation = () => {
             });
         } else {
             callTranslationAPI();
+        }
+    };
+
+    // Determine badge color based on sentiment
+    const getBadgeColorScheme = (sentiment) => {
+        switch (sentiment) {
+            case 'POSITIVE':
+                return 'green';
+            case 'NEGATIVE':
+                return 'red';
+            case 'NEUTRAL':
+                return 'yellow';
+            default:
+                return 'gray';
         }
     };
 
@@ -134,7 +148,7 @@ const Translation = () => {
                             {segmentation && (
                                 <HStack>
                                     <Text>Sentiment Analysis:</Text>
-                                    <Badge colorScheme="green">{segmentation}</Badge>
+                                    <Badge colorScheme={getBadgeColorScheme(segmentation)}>{segmentation}</Badge>
                                 </HStack>
                             )}
                         </VStack>
