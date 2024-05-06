@@ -32,6 +32,8 @@ import { fetchUserAttributes } from "aws-amplify/auth";
 import axios from "axios";
 
 
+const baseURL ="http://ec2-54-165-229-26.compute-1.amazonaws.com:8080";
+
 // Modal for adding descriptions to images
 const DescriptionModal = ({ isOpen, onClose, onSubmit }) => {
   const [description, setDescription] = useState("");
@@ -138,7 +140,7 @@ const Dashboard = () => {
 
     const fetchImageData = async () => {
       try {
-        const response = await fetch(`http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/getUserFilesDetails/${authUser}`);
+        const response = await fetch(`${baseURL}/file/getUserFilesDetails/${authUser}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -216,7 +218,7 @@ const Dashboard = () => {
     try {
       // Make an Axios request to upload the image
       const response = await axios.post(
-        'http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/uploadFile',
+        `${baseURL}/file/uploadFile`,
         formData,
         {
           headers: {
@@ -294,7 +296,7 @@ const Dashboard = () => {
   const handleDeleteImage = async (fileName) => {
     try {
       // Call the API to delete the image
-      const response = await fetch(`http://ec2-54-243-13-64.compute-1.amazonaws.com:8080/file/delete/${fileName}`, {
+      const response = await fetch(`${baseURL}/file/delete/${fileName}`, {
         method: 'DELETE',
       });
 

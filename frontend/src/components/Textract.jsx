@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 import Navbar from './NavBar';
 
-const baseURL = "http://ec2-54-243-13-64.compute-1.amazonaws.com:8080";
+const baseURL = "http://ec2-54-165-229-26.compute-1.amazonaws.com:8080";
 
 const Textract = () => {
   const [file, setFile] = useState(null);
