@@ -9,8 +9,6 @@ const Register = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Handle registration logic here
-        // You should validate the passwords match, among other validation, before proceeding
         console.log(username, email, password, confirmPassword);
     };
 

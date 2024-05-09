@@ -6,6 +6,8 @@ import {
 import axios from 'axios';
 import Navbar from './NavBar';
 
+const baseURL = "http://107.23.53.220:4000";
+
 const Translation = () => {
     const [selectLanguageCode, setSelectedLanguageCode] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -26,7 +28,7 @@ const Translation = () => {
         console.log(`Code: ${selectLanguageCode}`)
         setAudioUrl('');
         try {
-            const response = await axios.post("http://ec2-54-90-197-158.compute-1.amazonaws.com:4000/translate/", {
+            const response = await axios.post(`${baseURL}/translate/`, {
                 text: inputText,
                 language: selectLanguageCode
             });

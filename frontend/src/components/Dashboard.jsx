@@ -30,9 +30,10 @@ import Navbar from "./NavBar";
 import { debounce } from "lodash"; // For debouncing
 import { fetchUserAttributes } from "aws-amplify/auth";
 import axios from "axios";
+import { m } from "framer-motion";
 
 
-const baseURL ="http://ec2-54-165-229-26.compute-1.amazonaws.com:8080";
+const baseURL ="http://34.193.57.242:8080";
 
 // Modal for adding descriptions to images
 const DescriptionModal = ({ isOpen, onClose, onSubmit }) => {
