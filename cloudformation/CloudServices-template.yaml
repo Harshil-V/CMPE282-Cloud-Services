@@ -1,0 +1,1950 @@
+---
+Metadata:
+  TemplateId: "arn:aws:cloudformation:us-east-1:799631054303:generatedTemplate/dbd7caed-2abd-496b-b268-5bf1f1c2f96e"
+Parameters:
+  LambdaFunction00amplifylogincustommessage0e46c3cb00SWflPCodeS3KeyOneOf2X5zN:
+    NoEcho: "true"
+    Type: "String"
+    Description: "The Amazon S3 key of the deployment package.\nThis property can\
+      \ be replaced with other exclusive properties"
+  LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwzCodeS3BucketOneOfMebKI:
+    NoEcho: "true"
+    Type: "String"
+    Description: "An Amazon S3 bucket in the same AWS-Region as your function. The\
+      \ bucket can be in a different AWS-account.\nThis property can be replaced with\
+      \ other exclusive properties"
+  LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJvCodeS3BucketOneOfn1op6:
+    NoEcho: "true"
+    Type: "String"
+    Description: "An Amazon S3 bucket in the same AWS-Region as your function. The\
+      \ bucket can be in a different AWS-account.\nThis property can be replaced with\
+      \ other exclusive properties"
+  LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJvCodeS3KeyOneOf38Asr:
+    NoEcho: "true"
+    Type: "String"
+    Description: "The Amazon S3 key of the deployment package.\nThis property can\
+      \ be replaced with other exclusive properties"
+  LambdaFunction00amplifylogincustommessage0e46c3cb00SWflPCodeS3BucketOneOftR5Jh:
+    NoEcho: "true"
+    Type: "String"
+    Description: "An Amazon S3 bucket in the same AWS-Region as your function. The\
+      \ bucket can be in a different AWS-account.\nThis property can be replaced with\
+      \ other exclusive properties"
+  LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJCodeS3BucketOneOfZcwjt:
+    NoEcho: "true"
+    Type: "String"
+    Description: "An Amazon S3 bucket in the same AWS-Region as your function. The\
+      \ bucket can be in a different AWS-account.\nThis property can be replaced with\
+      \ other exclusive properties"
+  LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwzCodeS3KeyOneOfTpfO7:
+    NoEcho: "true"
+    Type: "String"
+    Description: "The Amazon S3 key of the deployment package.\nThis property can\
+      \ be replaced with other exclusive properties"
+  LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJCodeS3KeyOneOfg8lc0:
+    NoEcho: "true"
+    Type: "String"
+    Description: "The Amazon S3 key of the deployment package.\nThis property can\
+      \ be replaced with other exclusive properties"
+Resources:
+  EC2SecurityGroup00sg016766c42fccabc6000gIZpd:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "Security group attached to traveldatabase to allow EC2 instances\
+        \ with specific security groups attached to connect to the database. Modification\
+        \ could lead to connection loss."
+      GroupName: "rds-ec2-1"
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      SecurityGroupIngress:
+      - IpProtocol: "tcp"
+        Description: "Rule to allow connections from EC2 instances with sg-0f48c328021f7130b\
+          \ attached"
+        FromPort: 3306
+        SourceSecurityGroupId: "sg-0f48c328021f7130b"
+        ToPort: 3306
+        SourceSecurityGroupOwnerId: "799631054303"
+  EC2SubnetNetworkAclAssociation00aclassoc0bd6c384e8dfc204c00zQ09m:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl031fc90be672761e900uxPIQ"
+      SubnetId:
+        Ref: "EC2Subnet00subnet04212b40caacbcf5e00kFaGg"
+  EC2DHCPOptions00dopt09ac70774d675f8e4007j6qU:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::DHCPOptions"
+    DeletionPolicy: "Retain"
+    Properties:
+      DomainName: "ec2.internal"
+      DomainNameServers:
+      - "AmazonProvidedDNS"
+      Tags: []
+  EC2SecurityGroup00sg0881087429117034000UAG70:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "launch-wizard-1 created 2024-04-25T05:28:39.656Z"
+      GroupName: "launch-wizard-1"
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      SecurityGroupIngress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 80
+        ToPort: 80
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 22
+        ToPort: 22
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 443
+        ToPort: 443
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+  EC2SubnetNetworkAclAssociation00aclassoc0ff18cbbbb70f484100eKl2a:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl031fc90be672761e900uxPIQ"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0939347cdc535bc8900cnXVe"
+  CloudFrontOriginRequestPolicy00775133bc15f249f9abeaafb2e0bf67d200n19my:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "all"
+        Comment: "Policy for Elemental MediaTailor Origin"
+        HeadersConfig:
+          HeaderBehavior: "whitelist"
+          Headers:
+          - "origin"
+          - "access-control-request-headers"
+          - "x-forwarded-for"
+          - "access-control-request-method"
+          - "user-agent"
+        CookiesConfig:
+          CookieBehavior: "none"
+        Name: "Managed-Elemental-MediaTailor-PersonalizedManifests"
+  CloudFrontCachePolicy002e54312d136d493c8eb9b001f22f67d2000274U:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::CachePolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      CachePolicyConfig:
+        Comment: "Policy for Amplify Origin"
+        MinTTL: 2
+        MaxTTL: 600
+        ParametersInCacheKeyAndForwardedToOrigin:
+          QueryStringsConfig:
+            QueryStringBehavior: "all"
+          EnableAcceptEncodingBrotli: true
+          HeadersConfig:
+            HeaderBehavior: "whitelist"
+            Headers:
+            - "Authorization"
+            - "CloudFront-Viewer-Country"
+            - "Host"
+          CookiesConfig:
+            CookieBehavior: "all"
+          EnableAcceptEncodingGzip: true
+        DefaultTTL: 2
+        Name: "Managed-Amplify"
+  LogsLogGroup00awslambdaamplifycmpe282cloudserviUpdateRolesWithIDPFunctixbs5KnMsgkUZ006QJ6G:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Logs::LogGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      LogGroupClass: "STANDARD"
+      LogGroupName: "/aws/lambda/amplify-cmpe282cloudservi-UpdateRolesWithIDPFuncti-xbs5KnMsgkUZ"
+      DataProtectionPolicy: {}
+  EC2Instance00i0caf912fc12efefe200VxgLi:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Instance"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tenancy: "default"
+      SecurityGroups:
+      - "ec2-rds-1"
+      - "launch-wizard-1"
+      PrivateIpAddress: "172.31.83.184"
+      UserData: "IyEvYmluL2Jhc2gKCnN1ZG8geXVtIHVwZGF0ZSAteQpzdWRvIGFtYXpvbi1saW51eC1leHRyYXMgaW5zdGFsbCBqYXZhLW9wZW5qZGsxMQpzdWRvIHl1bSAteSBpbnN0YWxsIHdnZXQKCiMgRG93bmxvYWQgYW5kIHJ1biB5b3VyIFNwcmluZyBCb290IGFwcGxpY2F0aW9uCgp3Z2V0IGh0dHBzOi8vdHJhdmVsYXBwLWphdmEtamFyLnMzLmFtYXpvbmF3cy5jb20vdHJhdmVsLWFwcC0wLjAuMS1TTkFQU0hPVC5qYXIgLVAgL2hvbWUvZWMyLXVzZXIvCgpzY3JlZW4gLWRtUyBteWFwcCBqYXZhIC1qYXIgL2hvbWUvZWMyLXVzZXIvdHJhdmVsLWFwcC0wLjAuMS1TTkFQU0hPVC5qYXI="
+      BlockDeviceMappings:
+      - Ebs:
+          SnapshotId: "snap-0a618d0e7b5edacd2"
+          VolumeType: "gp2"
+          Iops: 100
+          VolumeSize: 8
+          Encrypted: false
+          DeleteOnTermination: true
+        DeviceName: "/dev/xvda"
+      SubnetId:
+        Ref: "EC2Subnet00subnet06262136fc3de9149004kvtB"
+      EbsOptimized: false
+      Volumes:
+      - VolumeId: "vol-0937a535730e4b526"
+        Device: "/dev/xvda"
+      NetworkInterfaces:
+      - PrivateIpAddresses:
+        - PrivateIpAddress: "172.31.83.184"
+          Primary: true
+        SecondaryPrivateIpAddressCount: 0
+        DeviceIndex: "0"
+        GroupSet:
+        - Ref: "EC2SecurityGroup00sg0f48c328021f7130b00EVkAB"
+        - Ref: "EC2SecurityGroup00sg0881087429117034000UAG70"
+        Ipv6Addresses: []
+        SubnetId:
+          Ref: "EC2Subnet00subnet06262136fc3de9149004kvtB"
+        AssociatePublicIpAddress: true
+        NetworkInterfaceId:
+          Ref: "EC2NetworkInterface00eni01b76a6e43c4fcdc300CAf2A"
+        DeleteOnTermination: true
+      ImageId: "ami-0a1179631ec8933d7"
+      InstanceType: "t2.micro"
+      Monitoring: false
+      Tags:
+      - Value: "travel_java_backend"
+        Key: "Name"
+      InstanceInitiatedShutdownBehavior: "stop"
+      CpuOptions:
+        ThreadsPerCore: 1
+        CoreCount: 1
+      AvailabilityZone: "us-east-1b"
+      PrivateDnsNameOptions:
+        EnableResourceNameDnsARecord: true
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      SecurityGroupIds:
+      - "sg-0f48c328021f7130b"
+      - "sg-08810874291170340"
+      DisableApiTermination: false
+      KeyName: "travel_java_backend"
+      SourceDestCheck: true
+      PlacementGroupName: ""
+      VpcId: "vpc-06dfed0bbe43a3408"
+      State:
+        Code: "16"
+        Name: "running"
+      CreditSpecification:
+        CPUCredits: "standard"
+  EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkAcl"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      Tags: []
+  LambdaPermission00functionamplifylogincreateauthchallenge0e46c3cb00kxpaE:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Permission"
+    DeletionPolicy: "Retain"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - "LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwz"
+        - "Arn"
+      Action: "lambda:InvokeFunction"
+      SourceArn: "arn:aws:cognito-idp:us-east-1:799631054303:userpool/us-east-1_v8rwDN5RZ"
+      Principal: "cognito-idp.amazonaws.com"
+  EC2Subnet00subnet03914beaec7eebe280026jxj:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.0.0/20"
+      Ipv6Native: false
+      Tags: []
+  IAMRole00amplifyconsolebackendrole00X5KJR:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/AdministratorAccess-Amplify"
+      MaxSessionDuration: 3600
+      RoleName: "amplifyconsole-backend-role"
+      Description: "Allows Amplify Backend Deployment to access AWS resources on your\
+        \ behalf."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "amplify.amazonaws.com"
+  LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwz:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Function"
+    DeletionPolicy: "Retain"
+    Properties:
+      MemorySize: 256
+      Description: ""
+      TracingConfig:
+        Mode: "PassThrough"
+      Timeout: 15
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: "Auto"
+      Handler: "index.handler"
+      Code:
+        S3Bucket:
+          Ref: "LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwzCodeS3BucketOneOfMebKI"
+        S3Key:
+          Ref: "LambdaFunction00amplifylogincreateauthchallenge0e46c3cb00MAqwzCodeS3KeyOneOfTpfO7"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00amplifyloginlambda0e46c3cb00qnqej"
+        - "Arn"
+      FileSystemConfigs: []
+      FunctionName: "amplify-login-create-auth-challenge-0e46c3cb"
+      Runtime: "nodejs20.x"
+      PackageType: "Zip"
+      LoggingConfig:
+        LogFormat: "Text"
+        LogGroup: "/aws/lambda/amplify-login-create-auth-challenge-0e46c3cb"
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+      - "x86_64"
+  CloudFrontOriginRequestPolicy00acba4595bd2849b8b9fe13317c0390fa00ohL0S:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "none"
+        Comment: "Policy to forward user-agent and referer headers to origin"
+        HeadersConfig:
+          HeaderBehavior: "whitelist"
+          Headers:
+          - "referer"
+          - "user-agent"
+        CookiesConfig:
+          CookieBehavior: "none"
+        Name: "Managed-UserAgentRefererHeaders"
+  EC2NetworkAcl00acl031fc90be672761e900uxPIQ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkAcl"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      Tags: []
+  EC2VPCDHCPOptionsAssociation00vpc04cd317fca8796a7800ANIqq:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPCDHCPOptionsAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      DhcpOptionsId:
+        Ref: "EC2DHCPOptions00dopt09ac70774d675f8e4007j6qU"
+  EC2VPC00vpc04cd317fca8796a7800moGVI:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "10.4.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags:
+      - Value: "project-vpc"
+        Key: "Name"
+  EC2InternetGateway00igw05dd77243e7c7035300P1YMZ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::InternetGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tags: []
+  EC2Subnet00subnet06262136fc3de9149004kvtB:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az2"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.80.0/20"
+      Ipv6Native: false
+      Tags: []
+  LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJv:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Function"
+    DeletionPolicy: "Retain"
+    Properties:
+      MemorySize: 256
+      Description: ""
+      TracingConfig:
+        Mode: "PassThrough"
+      Timeout: 15
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: "Auto"
+      Handler: "index.handler"
+      Code:
+        S3Bucket:
+          Ref: "LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJvCodeS3BucketOneOfn1op6"
+        S3Key:
+          Ref: "LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJvCodeS3KeyOneOf38Asr"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00amplifyloginlambda0e46c3cb00qnqej"
+        - "Arn"
+      FileSystemConfigs: []
+      FunctionName: "amplify-login-define-auth-challenge-0e46c3cb"
+      Runtime: "nodejs20.x"
+      PackageType: "Zip"
+      LoggingConfig:
+        LogFormat: "Text"
+        LogGroup: "/aws/lambda/amplify-login-define-auth-challenge-0e46c3cb"
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+      - "x86_64"
+  EC2SubnetNetworkAclAssociation00aclassoc0be8a1d229558bb3900KBELw:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet06262136fc3de9149004kvtB"
+  EC2Volume00vol02104d773ade25d0200S3wIo:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Retain"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-05df0f277041b9c8f"
+      VolumeType: "gp3"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZone: "us-east-1c"
+      Throughput: 125
+      Iops: 3000
+      Tags: []
+  EC2EIP00341935724200Ww0YS:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIP"
+    DeletionPolicy: "Retain"
+    Properties:
+      PublicIpv4Pool: "amazon"
+      Domain: "vpc"
+      InstanceId: "i-0caf912fc12efefe2"
+      Tags: []
+      NetworkBorderGroup: "us-east-1"
+  EC2SubnetNetworkAclAssociation00aclassoc095c9b0954c3b36fb00wM8al:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl031fc90be672761e900uxPIQ"
+      SubnetId:
+        Ref: "EC2Subnet00subnet04b8026ef1e12d2cd00ldLqn"
+  EC2Volume00vol0937a535730e4b52600TbdXB:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Retain"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-0a618d0e7b5edacd2"
+      VolumeType: "gp2"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZone: "us-east-1b"
+      Iops: 100
+      Tags: []
+  CloudFrontCachePolicy000862726205a94f769dedb50ca2e3a84f0027g67:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::CachePolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      CachePolicyConfig:
+        Comment: "Policy for Elemental MediaPackage Origin"
+        MinTTL: 0
+        MaxTTL: 3.1536E7
+        ParametersInCacheKeyAndForwardedToOrigin:
+          QueryStringsConfig:
+            QueryStrings:
+            - "aws.manifestfilter"
+            - "start"
+            - "end"
+            - "m"
+            QueryStringBehavior: "whitelist"
+          EnableAcceptEncodingBrotli: false
+          HeadersConfig:
+            HeaderBehavior: "whitelist"
+            Headers:
+            - "origin"
+          CookiesConfig:
+            CookieBehavior: "none"
+          EnableAcceptEncodingGzip: true
+        DefaultTTL: 86400
+        Name: "Managed-Elemental-MediaPackage"
+  KMSKey00b3481fb4b89b402ebd61c7f9abdeb5ee00y5fa5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::KMS::Key"
+    DeletionPolicy: "Retain"
+    Properties:
+      Origin: "AWS_KMS"
+      MultiRegion: false
+      Description: "Default key that protects my Kendra data when no other key is\
+        \ defined"
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+        - Condition:
+            StringEquals:
+              kms:ViaService: "kendra.us-east-1.amazonaws.com"
+              kms:CallerAccount: "799631054303"
+          Resource: "*"
+          Action:
+          - "kms:Encrypt"
+          - "kms:Decrypt"
+          - "kms:ReEncrypt*"
+          - "kms:GenerateDataKey*"
+          - "kms:CreateGrant"
+          - "kms:DescribeKey"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allow access through Amazon Kendra for all principals in the account\
+            \ that are authorized to use Amazon Kendra"
+        - Resource: "*"
+          Action:
+          - "kms:Describe*"
+          - "kms:Get*"
+          - "kms:List*"
+          - "kms:RevokeGrant"
+          Effect: "Allow"
+          Principal:
+            AWS: "arn:aws:iam::799631054303:root"
+          Sid: "Allow direct access to key metadata to the account"
+        - Resource: "*"
+          Action:
+          - "kms:Describe*"
+          - "kms:Get*"
+          - "kms:List*"
+          Effect: "Allow"
+          Principal:
+            Service: "kendra.amazonaws.com"
+          Sid: "Allow Kendra Service to describe the key directly"
+        Id: "auto-kendra-1"
+      KeySpec: "SYMMETRIC_DEFAULT"
+      Enabled: true
+      EnableKeyRotation: true
+      KeyUsage: "ENCRYPT_DECRYPT"
+      Tags: []
+  SNSTopic00CloudHealthCheck00AVTGF:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::SNS::Topic"
+    DeletionPolicy: "Retain"
+    Properties:
+      FifoTopic: false
+      Subscription:
+      - Endpoint: "harshilnipunkumar.vyas@sjsu.edu"
+        Protocol: "email"
+      ArchivePolicy: {}
+      TopicName: "CloudHealthCheck"
+  EC2Subnet00subnet04b8026ef1e12d2cd00ldLqn:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az2"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.4.144.0/20"
+      Ipv6Native: false
+      Tags:
+      - Value: "project-subnet-private2-us-east-1b"
+        Key: "Name"
+  LambdaFunction00amplifylogincustommessage0e46c3cb00SWflP:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Function"
+    DeletionPolicy: "Retain"
+    Properties:
+      MemorySize: 256
+      Description: ""
+      TracingConfig:
+        Mode: "PassThrough"
+      Timeout: 15
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: "Auto"
+      Handler: "index.handler"
+      Code:
+        S3Bucket:
+          Ref: "LambdaFunction00amplifylogincustommessage0e46c3cb00SWflPCodeS3BucketOneOftR5Jh"
+        S3Key:
+          Ref: "LambdaFunction00amplifylogincustommessage0e46c3cb00SWflPCodeS3KeyOneOf2X5zN"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00amplifyloginlambda0e46c3cb00qnqej"
+        - "Arn"
+      FileSystemConfigs: []
+      FunctionName: "amplify-login-custom-message-0e46c3cb"
+      Runtime: "nodejs20.x"
+      PackageType: "Zip"
+      LoggingConfig:
+        LogFormat: "Text"
+        LogGroup: "/aws/lambda/amplify-login-custom-message-0e46c3cb"
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+      - "x86_64"
+  CloudFrontCachePolicy00b2884449e4de46a7ac3670bc7f1ddd6d00JXgEB:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::CachePolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      CachePolicyConfig:
+        Comment: "Default policy when compression is disabled"
+        MinTTL: 1
+        MaxTTL: 3.1536E7
+        ParametersInCacheKeyAndForwardedToOrigin:
+          QueryStringsConfig:
+            QueryStringBehavior: "none"
+          EnableAcceptEncodingBrotli: false
+          HeadersConfig:
+            HeaderBehavior: "none"
+          CookiesConfig:
+            CookieBehavior: "none"
+          EnableAcceptEncodingGzip: false
+        DefaultTTL: 86400
+        Name: "Managed-CachingOptimizedForUncompressedObjects"
+  EC2Subnet00subnet09c9673f28aecb98c00jRjaM:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az2"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.4.16.0/20"
+      Ipv6Native: false
+      Tags:
+      - Value: "project-subnet-public2-us-east-1b"
+        Key: "Name"
+  CloudFrontOriginRequestPolicy0033f36d7ef39646d990e052428a34d9dc00h5NR5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "all"
+        Comment: "Policy to forward all parameters in viewer requests and all CloudFront\
+          \ headers as of June 2022"
+        HeadersConfig:
+          HeaderBehavior: "allViewerAndWhitelistCloudFront"
+          Headers:
+          - "CloudFront-Viewer-Time-Zone"
+          - "CloudFront-Viewer-Address"
+          - "CloudFront-Viewer-Country"
+          - "CloudFront-Is-IOS-Viewer"
+          - "CloudFront-Is-Tablet-Viewer"
+          - "CloudFront-Forwarded-Proto"
+          - "CloudFront-Viewer-Country-Name"
+          - "CloudFront-Is-Mobile-Viewer"
+          - "CloudFront-Is-SmartTV-Viewer"
+          - "CloudFront-Viewer-Country-Region"
+          - "CloudFront-Is-Android-Viewer"
+          - "CloudFront-Viewer-Country-Region-Name"
+          - "CloudFront-Viewer-City"
+          - "CloudFront-Viewer-Latitude"
+          - "CloudFront-Viewer-Longitude"
+          - "CloudFront-Viewer-Http-Version"
+          - "CloudFront-Viewer-Postal-Code"
+          - "CloudFront-Viewer-ASN"
+          - "CloudFront-Is-Desktop-Viewer"
+          - "CloudFront-Viewer-Metro-Code"
+          - "CloudFront-Viewer-TLS"
+        CookiesConfig:
+          CookieBehavior: "all"
+        Name: "Managed-AllViewerAndCloudFrontHeaders-2022-06"
+  EC2Instance00i0425324be97c8fff100gPiUA:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Instance"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tenancy: "default"
+      SecurityGroups:
+      - "launch-wizard-2"
+      PrivateIpAddress: "172.31.29.235"
+      InstanceInitiatedShutdownBehavior: "stop"
+      CpuOptions:
+        ThreadsPerCore: 1
+        CoreCount: 1
+      BlockDeviceMappings:
+      - Ebs:
+          SnapshotId: "snap-05df0f277041b9c8f"
+          VolumeType: "gp3"
+          Iops: 3000
+          VolumeSize: 8
+          Encrypted: false
+          DeleteOnTermination: true
+        DeviceName: "/dev/xvda"
+      AvailabilityZone: "us-east-1c"
+      PrivateDnsNameOptions:
+        EnableResourceNameDnsARecord: true
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      SubnetId:
+        Ref: "EC2Subnet00subnet02ec2f7478775d8d400RGphe"
+      SecurityGroupIds:
+      - "sg-06d1a2fbdd27794fa"
+      EbsOptimized: false
+      DisableApiTermination: false
+      KeyName: "travel_nodejs"
+      SourceDestCheck: true
+      Volumes:
+      - VolumeId: "vol-02104d773ade25d02"
+        Device: "/dev/xvda"
+      PlacementGroupName: ""
+      VpcId: "vpc-06dfed0bbe43a3408"
+      State:
+        Code: "16"
+        Name: "running"
+      NetworkInterfaces:
+      - PrivateIpAddresses:
+        - PrivateIpAddress: "172.31.29.235"
+          Primary: true
+        SecondaryPrivateIpAddressCount: 0
+        DeviceIndex: "0"
+        GroupSet:
+        - Ref: "EC2SecurityGroup00sg06d1a2fbdd27794fa004QHtu"
+        Ipv6Addresses: []
+        SubnetId:
+          Ref: "EC2Subnet00subnet02ec2f7478775d8d400RGphe"
+        AssociatePublicIpAddress: true
+        NetworkInterfaceId:
+          Ref: "EC2NetworkInterface00eni0e27426f1fada923a00QEQwT"
+        DeleteOnTermination: true
+      ImageId: "ami-04e5276ebb8451442"
+      InstanceType: "t2.micro"
+      Monitoring: false
+      Tags:
+      - Value: "travel_nodejs_backend"
+        Key: "Name"
+      CreditSpecification:
+        CPUCredits: "standard"
+  LambdaPermission00functionamplifylogincustommessage0e46c3cb00HZnI8:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Permission"
+    DeletionPolicy: "Retain"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - "LambdaFunction00amplifylogincustommessage0e46c3cb00SWflP"
+        - "Arn"
+      Action: "lambda:InvokeFunction"
+      SourceArn: "arn:aws:cognito-idp:us-east-1:799631054303:userpool/us-east-1_v8rwDN5RZ"
+      Principal: "cognito-idp.amazonaws.com"
+  IAMUser00harshilcmpe28200htuUp:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::User"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/IAMUserChangePassword"
+      - "arn:aws:iam::799631054303:policy/AmazonSageMakerFullAccess"
+      - "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+      UserName: "harshil_cmpe282"
+      LoginProfile:
+        PasswordResetRequired: false
+      Groups:
+      - Ref: "IAMGroup00cmpe28200Xr6SY"
+  EC2SecurityGroup00sg06d1a2fbdd27794fa004QHtu:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "launch-wizard-2 created 2024-04-25T06:29:19.365Z"
+      GroupName: "launch-wizard-2"
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      SecurityGroupIngress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 80
+        ToPort: 80
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 22
+        ToPort: 22
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 0
+        ToPort: 0
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 443
+        ToPort: 443
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+  EC2NetworkInterface00eni01b76a6e43c4fcdc300CAf2A:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: ""
+      PrivateIpAddress: "172.31.83.184"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.83.184"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-0f48c328021f7130b"
+      - "sg-08810874291170340"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet06262136fc3de9149004kvtB"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  CloudFrontCachePolicy00658327eaf89d4faba63d7e88639e58f600dTAbg:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::CachePolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      CachePolicyConfig:
+        Comment: "Policy with caching enabled. Supports Gzip and Brotli compression."
+        MinTTL: 1
+        MaxTTL: 3.1536E7
+        ParametersInCacheKeyAndForwardedToOrigin:
+          QueryStringsConfig:
+            QueryStringBehavior: "none"
+          EnableAcceptEncodingBrotli: true
+          HeadersConfig:
+            HeaderBehavior: "none"
+          CookiesConfig:
+            CookieBehavior: "none"
+          EnableAcceptEncodingGzip: true
+        DefaultTTL: 86400
+        Name: "Managed-CachingOptimized"
+  EC2Subnet00subnet02ec2f7478775d8d400RGphe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az4"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.16.0/20"
+      Ipv6Native: false
+      Tags: []
+  IAMUser00karthikcmpe28200VTg2m:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::User"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/job-function/Billing"
+      - "arn:aws:iam::aws:policy/AWSBillingConductorReadOnlyAccess"
+      - "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
+      - "arn:aws:iam::aws:policy/IAMUserChangePassword"
+      - "arn:aws:iam::aws:policy/AWSBillingConductorFullAccess"
+      UserName: "karthik_cmpe282"
+      LoginProfile:
+        PasswordResetRequired: false
+      Groups:
+      - Ref: "IAMGroup00cmpe28200Xr6SY"
+      Tags:
+      - Value: "cmpe282"
+        Key: "------------------------"
+  Route53HealthCheck00cf2813d77d674b97ba954ca7adba541b00kZN1C:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Route53::HealthCheck"
+    DeletionPolicy: "Retain"
+    Properties:
+      HealthCheckTags:
+      - Value: "https://frontend.d3cv0219t3uc3c.amplifyapp.com/"
+        Key: "Name"
+      HealthCheckConfig:
+        Type: "CALCULATED"
+        ChildHealthChecks: []
+        Inverted: false
+        HealthThreshold: 0
+  EC2Subnet00subnet0661af0cadcb5cd8d00pcxQN:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az3"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.48.0/20"
+      Ipv6Native: false
+      Tags: []
+  EC2SubnetNetworkAclAssociation00aclassoc0705c58a2caca21b000tMvvG:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0661af0cadcb5cd8d00pcxQN"
+  IAMUser00mohithcmpe28200u7cAd:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::User"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/IAMUserChangePassword"
+      UserName: "mohith_cmpe282"
+      LoginProfile:
+        PasswordResetRequired: false
+      Groups:
+      - Ref: "IAMGroup00cmpe28200Xr6SY"
+  IAMUser00amplifyusercloudservices004g7db:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::User"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/AdministratorAccess-Amplify"
+      UserName: "amplify-user-cloud-services"
+  EC2NetworkInterfaceAttachment00eniattach0b46603fe74f9b36700oR8EA:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterfaceAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkInterfaceId: "eni-0e27426f1fada923a"
+      InstanceId: "i-0425324be97c8fff1"
+      DeviceIndex: "0"
+      DeleteOnTermination: true
+  LogsLogGroup00RDSOSMetrics00v8Fr9:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Logs::LogGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      LogGroupClass: "STANDARD"
+      RetentionInDays: 30
+      LogGroupName: "RDSOSMetrics"
+      DataProtectionPolicy: {}
+  EC2NetworkInterface00eni0e27426f1fada923a00QEQwT:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: ""
+      PrivateIpAddress: "172.31.29.235"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.29.235"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-06d1a2fbdd27794fa"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet02ec2f7478775d8d400RGphe"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  LogsLogStream00db6ICURVPRIEWPBHHHNZC5K7CYXE001iMCy:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Logs::LogStream"
+    DeletionPolicy: "Retain"
+    Properties:
+      LogStreamName: "db-6ICURVPRIEWPBHHHNZC5K7CYXE"
+      LogGroupName:
+        Ref: "LogsLogGroup00RDSOSMetrics00v8Fr9"
+  EC2VPCDHCPOptionsAssociation00vpc06dfed0bbe43a3408004oKt4:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPCDHCPOptionsAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      DhcpOptionsId:
+        Ref: "EC2DHCPOptions00dopt09ac70774d675f8e4007j6qU"
+  EC2SubnetNetworkAclAssociation00aclassoc0e8543cc1eb6f33f000XfxKc:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet09045eb3372d0341e00vR4k0"
+  EC2NetworkInterfaceAttachment00eniattach0883872c25c827e7200Mxyvb:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterfaceAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkInterfaceId: "eni-01b76a6e43c4fcdc3"
+      InstanceId: "i-0caf912fc12efefe2"
+      DeviceIndex: "0"
+      DeleteOnTermination: true
+  AmplifyApp00appsd1fsxj0uun8ysk00NSJgE:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Amplify::App"
+    DeletionPolicy: "Retain"
+    Properties:
+      EnableBranchAutoDeletion: false
+      EnvironmentVariables:
+      - Value: "[{\"pkg\":\"@aws-amplify/cli\",\"type\":\"npm\",\"version\":\"latest\"\
+          }]"
+        Name: "_LIVE_PACKAGE_UPDATES"
+      Platform: "WEB"
+      CustomHeaders: ""
+      Name: "cmpe282frontend"
+  IAMManagedPolicy00policyAmazonSageMakerFullAccess00PMvlR:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::ManagedPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      ManagedPolicyName: "AmazonSageMakerFullAccess"
+      Path: "/"
+      Description: ""
+      Groups: []
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Resource:
+          - "arn:aws:sagemaker:*:*:domain/*"
+          - "arn:aws:sagemaker:*:*:user-profile/*"
+          - "arn:aws:sagemaker:*:*:app/*"
+          - "arn:aws:sagemaker:*:*:flow-definition/*"
+          Action:
+          - "sagemaker:*"
+          Effect: "Allow"
+        - Resource:
+          - "*"
+          Action:
+          - "iam:GetRole"
+          - "servicecatalog:*"
+          Effect: "Allow"
+      Roles: []
+      Users:
+      - Ref: "IAMUser00harshilcmpe28200htuUp"
+  EC2Volume00vol0caf95ed61c0500c500ZiT6G:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Retain"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-05df0f277041b9c8f"
+      VolumeType: "gp3"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZone: "us-east-1f"
+      Throughput: 125
+      Iops: 3000
+      Tags: []
+  EC2SubnetNetworkAclAssociation00aclassoc0147ffbe9df8455de00SM9y1:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet0a31db0e9b1787eec00PDE7q"
+  EC2EIPAssociation00eipassoc029df2b1ca8e5872200XDlB8:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIPAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      PrivateIpAddress:
+        Fn::GetAtt:
+        - "EC2NetworkInterface00eni01b76a6e43c4fcdc300CAf2A"
+        - "PrimaryPrivateIpAddress"
+      NetworkInterfaceId:
+        Ref: "EC2NetworkInterface00eni01b76a6e43c4fcdc300CAf2A"
+      InstanceId: "i-0caf912fc12efefe2"
+      EIP:
+        Fn::GetAtt:
+        - "EC2EIP00341935724200Ww0YS"
+        - "PublicIp"
+      AllocationId:
+        Fn::GetAtt:
+        - "EC2EIP00341935724200Ww0YS"
+        - "AllocationId"
+  LambdaPermission00functionamplifylogindefineauthchallenge0e46c3cb00vJHXd:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Permission"
+    DeletionPolicy: "Retain"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - "LambdaFunction00amplifylogindefineauthchallenge0e46c3cb00zLIJv"
+        - "Arn"
+      Action: "lambda:InvokeFunction"
+      SourceArn: "arn:aws:cognito-idp:us-east-1:799631054303:userpool/us-east-1_v8rwDN5RZ"
+      Principal: "cognito-idp.amazonaws.com"
+  CloudFrontOriginRequestPolicy00216adef65c7f47e4b9895492eafa07d300Ck8YD:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "all"
+        Comment: "Policy to forward all parameters in viewer requests"
+        HeadersConfig:
+          HeaderBehavior: "allViewer"
+        CookiesConfig:
+          CookieBehavior: "all"
+        Name: "Managed-AllViewer"
+  CloudFrontOriginRequestPolicy0088a5eaf42fd44709b370b4c650ea3fcf00kpSaw:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "none"
+        Comment: "Policy for S3 origin with CORS"
+        HeadersConfig:
+          HeaderBehavior: "whitelist"
+          Headers:
+          - "origin"
+          - "access-control-request-headers"
+          - "access-control-request-method"
+        CookiesConfig:
+          CookieBehavior: "none"
+        Name: "Managed-CORS-S3Origin"
+  SNSTopic00AmplifyHostingMetricNotificationd3cv0219t3uc3c5xxErrorse3f8604700cR5sD:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::SNS::Topic"
+    DeletionPolicy: "Retain"
+    Properties:
+      FifoTopic: false
+      Subscription:
+      - Endpoint: "harshilnipunkumar.vyas@sjsu.edu"
+        Protocol: "email"
+      ArchivePolicy: {}
+      TopicName: "Amplify-Hosting-Metric-Notification-d3cv0219t3uc3c-5xxErrors-e3f86047"
+  EC2VolumeAttachment00vol02104d773ade25d0200rWI2w:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      InstanceId: "i-0425324be97c8fff1"
+      VolumeId: "vol-02104d773ade25d02"
+      Device: "/dev/xvda"
+  IAMRole00amplifyloginlambda0e46c3cb00qnqej:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Role"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      MaxSessionDuration: 3600
+      RoleName: "amplify-login-lambda-0e46c3cb"
+      Policies:
+      - PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Resource: "arn:aws:amplifybackend:*:*:/backend/*"
+            Action:
+            - "amplifybackend:GetToken"
+            - "amplifybackend:DeleteToken"
+            Effect: "Allow"
+          - Resource: "*"
+            Action:
+            - "amplify:GetApp"
+            Effect: "Allow"
+        PolicyName: "Amplify-backend"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+        - Action: "sts:AssumeRole"
+          Effect: "Allow"
+          Principal:
+            Service: "lambda.amazonaws.com"
+  EC2Subnet00subnet09045eb3372d0341e00vR4k0:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az5"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.64.0/20"
+      Ipv6Native: false
+      Tags: []
+  EC2VPC00vpc06dfed0bbe43a340800w39p1:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "172.31.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags: []
+  LogsLogStream0020240505LATESTef860a4d100d4e2cbae3f0f723012bf200rjEh4:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Logs::LogStream"
+    DeletionPolicy: "Retain"
+    Properties:
+      LogStreamName: "2024/05/05/[$LATEST]ef860a4d100d4e2cbae3f0f723012bf2"
+      LogGroupName:
+        Ref: "LogsLogGroup00awslambdaamplifycmpe282cloudserviUpdateRolesWithIDPFunctixbs5KnMsgkUZ006QJ6G"
+  KMSKey00c4d0627730044fddaa47e12c98d209cb00taux7:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::KMS::Key"
+    DeletionPolicy: "Retain"
+    Properties:
+      Origin: "AWS_KMS"
+      MultiRegion: false
+      Description: "Default key that protects my Lambda functions when no other key\
+        \ is defined"
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+        - Condition:
+            StringEquals:
+              kms:CallerAccount: "799631054303"
+              kms:ViaService: "lambda.us-east-1.amazonaws.com"
+          Resource: "*"
+          Action:
+          - "kms:Encrypt"
+          - "kms:Decrypt"
+          - "kms:ReEncrypt*"
+          - "kms:GenerateDataKey*"
+          - "kms:CreateGrant"
+          - "kms:DescribeKey"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allow access through AWS Lambda for all principals in the account\
+            \ that are authorized to use AWS Lambda"
+        - Resource: "*"
+          Action:
+          - "kms:Describe*"
+          - "kms:Get*"
+          - "kms:List*"
+          - "kms:RevokeGrant"
+          Effect: "Allow"
+          Principal:
+            AWS: "arn:aws:iam::799631054303:root"
+          Sid: "Allow direct access to key metadata to the account"
+        Id: "auto-awslambda"
+      KeySpec: "SYMMETRIC_DEFAULT"
+      Enabled: true
+      EnableKeyRotation: true
+      KeyUsage: "ENCRYPT_DECRYPT"
+      Tags: []
+  EC2EIP00107235322000dJwdm:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIP"
+    DeletionPolicy: "Retain"
+    Properties:
+      PublicIpv4Pool: "amazon"
+      Domain: "vpc"
+      InstanceId: "i-0425324be97c8fff1"
+      Tags: []
+      NetworkBorderGroup: "us-east-1"
+  CloudWatchAlarm00httpsfrontendd3cv0219t3uc3camplifyappcomawsroute53cf2813d77d674b97ba954ca7adba541bLowHealthCheckStatus00CwPF7:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "LessThanThreshold"
+      Dimensions:
+      - Value:
+          Ref: "Route53HealthCheck00cf2813d77d674b97ba954ca7adba541b00kZN1C"
+        Name: "HealthCheckId"
+      Period: 60
+      EvaluationPeriods: 1
+      Namespace: "AWS/Route53"
+      OKActions: []
+      AlarmActions:
+      - Ref: "SNSTopic00CloudHealthCheck00AVTGF"
+      MetricName: "HealthCheckStatus"
+      ActionsEnabled: true
+      AlarmName: "https-frontend-d3cv0219t3uc3c-amplifyapp-com-awsroute53-cf2813d7-7d67-4b97-ba95-4ca7adba541b-Low-HealthCheckStatus"
+      Statistic: "Minimum"
+      InsufficientDataActions: []
+      Tags: []
+      Threshold: 1
+  EC2InternetGateway00igw0fd025a5f759f92b300lxEoE:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::InternetGateway"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tags:
+      - Value: "project-igw"
+        Key: "Name"
+  EC2Subnet00subnet0a31db0e9b1787eec00PDE7q:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az6"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.32.0/20"
+      Ipv6Native: false
+      Tags: []
+  EC2SubnetNetworkAclAssociation00aclassoc0305dfdb675de1dc800GFf9A:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet02ec2f7478775d8d400RGphe"
+  AmplifyApp00appsd3cv0219t3uc3c00vxslJ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Amplify::App"
+    DeletionPolicy: "Retain"
+    Properties:
+      Repository: "https://github.com/Harshil-V/CMPE282-Cloud-Services"
+      EnvironmentVariables:
+      - Value: "[{\"name\":\"Amplify CLI\",\"pkg\":\"@aws-amplify/cli\",\"type\":\"\
+          npm\",\"version\":\"latest\"}]"
+        Name: "_LIVE_UPDATES"
+      - Value: "frontend"
+        Name: "AMPLIFY_MONOREPO_APP_ROOT"
+      - Value: "false"
+        Name: "AMPLIFY_DIFF_DEPLOY"
+      Platform: "WEB"
+      EnableBranchAutoDeletion: false
+      BuildSpec: "version: 1\napplications:\n  - backend:\n      phases:\n       \
+        \ build:\n          commands:\n            - '# Execute Amplify CLI with the\
+        \ helper script'\n            - amplifyPush --simple\n    frontend:\n    \
+        \  phases:\n        preBuild:\n          commands:\n            - npm ci --cache\
+        \ .npm --prefer-offline\n        build:\n          commands:\n           \
+        \ - npm run build\n      artifacts:\n        baseDirectory: dist\n       \
+        \ files:\n          - '**/*'\n      cache:\n        paths:\n          - .npm/**/*\n\
+        \    appRoot: frontend\n"
+      CustomRules:
+      - Status: "404-200"
+        Target: "/index.html"
+        Source: "/<*>"
+      CustomHeaders: ""
+      Name: "CMPE282-Cloud-Services"
+      IAMServiceRole:
+        Fn::GetAtt:
+        - "IAMRole00amplifyconsolebackendrole00X5KJR"
+        - "Arn"
+  EC2SubnetNetworkAclAssociation00aclassoc09d65d86964def5fb00t2vwO:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl05a9b839f7270a32d00o8zpe"
+      SubnetId:
+        Ref: "EC2Subnet00subnet03914beaec7eebe280026jxj"
+  EC2NetworkInterface00eni0091cbd383e70f12700euN3I:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: ""
+      PrivateIpAddress: "172.31.71.107"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.71.107"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-01038dd5f7c34c179"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet09045eb3372d0341e00vR4k0"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  EC2NetworkInterface00eni03ff36e6b0b605d6c00k8AvI:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: "ELB app/MyLoadBalancer/e137648f3c483df3"
+      PrivateIpAddress: "172.31.68.186"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.68.186"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-01038dd5f7c34c179"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet09045eb3372d0341e00vR4k0"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  CloudFrontCachePolicy004135ea2d6df844a39df34b5a84be39ad003pSXZ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::CachePolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      CachePolicyConfig:
+        Comment: "Policy with caching disabled"
+        MinTTL: 0
+        MaxTTL: 0
+        ParametersInCacheKeyAndForwardedToOrigin:
+          QueryStringsConfig:
+            QueryStringBehavior: "none"
+          EnableAcceptEncodingBrotli: false
+          HeadersConfig:
+            HeaderBehavior: "none"
+          CookiesConfig:
+            CookieBehavior: "none"
+          EnableAcceptEncodingGzip: false
+        DefaultTTL: 0
+        Name: "Managed-CachingDisabled"
+  EC2NetworkInterface00eni0126ef9b9949f791500kdd5N:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: "RDSNetworkInterface"
+      PrivateIpAddress: "172.31.19.61"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.19.61"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-016766c42fccabc60"
+      - "sg-0d474e7f41509709d"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet02ec2f7478775d8d400RGphe"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  EC2KeyPair00travelnodejs005KBkz:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::KeyPair"
+    DeletionPolicy: "Retain"
+    Properties:
+      KeyName: "travel_nodejs"
+      KeyType: "rsa"
+      PublicKeyMaterial: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHxvXFMe7Ih2T4lxRYkdGHhnHCeePb2oNhSR5H+ClJ2Qcfu7JmnwzwbGdh3V8Z214nNCuYWFocYWt27P+fMYEz6CTD1tY/qoQpbA1b56EoTsUO3/vc7CC1Vb3yWhfGNAdwoXnQNc+GFmblU4RzxoKXqUfcrVX30MCyG8PAQREjc0VWjq26yEzovh57vWHgjc8a5rPT56RbP+/pT3RZi5ZkJBPpTm5H/Xp0INTEuJj/7OuV0Nz54wxZ9n08vhusYRrjMUkJaBkOuXgg717/E7lwkgA+jB7qM/DjfGbPIETcfb5Q80O0skX1gBNJ7qvGpF8YLkffx6ZujV6jr4MqqmIl\
+        \ travel_nodejs\n"
+      Tags: []
+  EC2Subnet00subnet0939347cdc535bc8900cnXVe:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.4.0.0/20"
+      Ipv6Native: false
+      Tags:
+      - Value: "project-subnet-public1-us-east-1a"
+        Key: "Name"
+  CloudFrontDistribution00ED94LQDZFX7W200xvOSY:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::Distribution"
+    DeletionPolicy: "Retain"
+    Properties:
+      DistributionConfig:
+        Logging:
+          IncludeCookies: false
+          Bucket: ""
+          Prefix: ""
+        Comment: ""
+        DefaultRootObject: ""
+        Origins:
+        - ConnectionTimeout: 10
+          OriginAccessControlId: ""
+          ConnectionAttempts: 3
+          OriginCustomHeaders: []
+          DomainName: "amplify-cmpe282cloudservices-frontend-0e094-deployment.s3.us-east-1.amazonaws.com"
+          OriginShield:
+            Enabled: false
+          S3OriginConfig:
+            OriginAccessIdentity: ""
+          OriginPath: ""
+          Id: "amplify-cmpe282cloudservices-frontend-0e094-deployment.s3.us-east-1.amazonaws.com"
+        ViewerCertificate:
+          MinimumProtocolVersion: "TLSv1"
+          SslSupportMethod: "vip"
+          CloudFrontDefaultCertificate: true
+        PriceClass: "PriceClass_100"
+        DefaultCacheBehavior:
+          Compress: true
+          TrustedKeyGroups: []
+          FunctionAssociations: []
+          AllowedMethods:
+          - "HEAD"
+          - "DELETE"
+          - "POST"
+          - "GET"
+          - "OPTIONS"
+          - "PUT"
+          - "PATCH"
+          CachedMethods:
+          - "HEAD"
+          - "GET"
+          LambdaFunctionAssociations: []
+          SmoothStreaming: false
+          TargetOriginId: "amplify-cmpe282cloudservices-frontend-0e094-deployment.s3.us-east-1.amazonaws.com"
+          ViewerProtocolPolicy: "allow-all"
+          CachePolicyId:
+            Ref: "CloudFrontCachePolicy00658327eaf89d4faba63d7e88639e58f600dTAbg"
+          TrustedSigners: []
+          FieldLevelEncryptionId: ""
+        Staging: false
+        CustomErrorResponses: []
+        ContinuousDeploymentPolicyId: ""
+        OriginGroups:
+          Quantity: 0
+          Items: []
+        Enabled: true
+        Aliases: []
+        IPV6Enabled: true
+        WebACLId: ""
+        HttpVersion: "http2"
+        Restrictions:
+          GeoRestriction:
+            Locations: []
+            RestrictionType: "none"
+        CacheBehaviors: []
+  EC2SecurityGroup00sg0f48c328021f7130b00EVkAB:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "Security group attached to instances to securely connect\
+        \ to traveldatabase. Modification could lead to connection loss."
+      GroupName: "ec2-rds-1"
+      VpcId:
+        Ref: "EC2VPC00vpc06dfed0bbe43a340800w39p1"
+      SecurityGroupEgress:
+      - IpProtocol: "tcp"
+        DestinationSecurityGroupId:
+          Fn::GetAtt:
+          - "EC2SecurityGroup00sg016766c42fccabc6000gIZpd"
+          - "GroupId"
+        Description: "Rule to allow connections to traveldatabase from any instances\
+          \ this security group is attached to"
+        FromPort: 3306
+        ToPort: 3306
+  EC2EIPAssociation00eipassoc046bd2816ec1df76c00Kk364:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::EIPAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      PrivateIpAddress:
+        Fn::GetAtt:
+        - "EC2NetworkInterface00eni0e27426f1fada923a00QEQwT"
+        - "PrimaryPrivateIpAddress"
+      NetworkInterfaceId:
+        Ref: "EC2NetworkInterface00eni0e27426f1fada923a00QEQwT"
+      InstanceId: "i-0425324be97c8fff1"
+      EIP:
+        Fn::GetAtt:
+        - "EC2EIP00107235322000dJwdm"
+        - "PublicIp"
+      AllocationId:
+        Fn::GetAtt:
+        - "EC2EIP00107235322000dJwdm"
+        - "AllocationId"
+  EC2KeyPair00traveljavabackend00EEJhj:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::KeyPair"
+    DeletionPolicy: "Retain"
+    Properties:
+      KeyName: "travel_java_backend"
+      KeyType: "rsa"
+      PublicKeyMaterial: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCWlThKaMMp2Oy4L+db9hpFm0aS5cB/vCgiS3FpV1FJV+NIJ8SO+rGVh2q2Gkt8iy0Gb6YqYhR+sSaae6THf7q2j3IkHkkMeHb/rVN//tji4oNIAkJpDo7qGxaQPw8sJyKQLu6zQ3KX43SGuHzTdyv5IlK+mQYK0UQnQ+F+QKLvqdHOmqZDCKmb6IFE3JNIVO789mtN4xPHGhdzxVaCvomUi00oZMdB4e9D+jXdbv9ndaTAU8ZioalQ8sqefILjmPvgtLE+FzWnGwXLCIDtR9ikNFTNBh4lQn9Xwxp9qMqExK/SzDg8paSzLmhrAxOFHX+J5oLeks/3tyJkU3HxI4I1\
+        \ travel_java_backend\n"
+      Tags: []
+  EC2Subnet00subnet04212b40caacbcf5e00kFaGg:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc04cd317fca8796a7800moGVI"
+      MapPublicIpOnLaunch: false
+      EnableDns64: false
+      AvailabilityZoneId: "use1-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "10.4.128.0/20"
+      Ipv6Native: false
+      Tags:
+      - Value: "project-subnet-private1-us-east-1a"
+        Key: "Name"
+  EC2SubnetNetworkAclAssociation00aclassoc01df15fd9b253270400vys9j:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SubnetNetworkAclAssociation"
+    DeletionPolicy: "Retain"
+    Properties:
+      NetworkAclId:
+        Ref: "EC2NetworkAcl00acl031fc90be672761e900uxPIQ"
+      SubnetId:
+        Ref: "EC2Subnet00subnet09c9673f28aecb98c00jRjaM"
+  LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Function"
+    DeletionPolicy: "Retain"
+    Properties:
+      MemorySize: 256
+      Description: ""
+      TracingConfig:
+        Mode: "PassThrough"
+      Timeout: 15
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: "Auto"
+      Handler: "index.handler"
+      Code:
+        S3Bucket:
+          Ref: "LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJCodeS3BucketOneOfZcwjt"
+        S3Key:
+          Ref: "LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJCodeS3KeyOneOfg8lc0"
+      Role:
+        Fn::GetAtt:
+        - "IAMRole00amplifyloginlambda0e46c3cb00qnqej"
+        - "Arn"
+      FileSystemConfigs: []
+      FunctionName: "amplify-login-verify-auth-challenge-0e46c3cb"
+      Runtime: "nodejs20.x"
+      PackageType: "Zip"
+      LoggingConfig:
+        LogFormat: "Text"
+        LogGroup: "/aws/lambda/amplify-login-verify-auth-challenge-0e46c3cb"
+      Environment:
+        Variables: {}
+      EphemeralStorage:
+        Size: 512
+      Architectures:
+      - "x86_64"
+  IAMUser00ahmedzaytoun10024T65:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::User"
+    DeletionPolicy: "Retain"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/AdministratorAccess-Amplify"
+      - "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
+      UserName: "ahmedzaytoun1"
+      Tags:
+      - Value: "ahmedzaytoun1-access-key-2"
+        Key: "----------------"
+      - Value: "ahmedzaytoun1-user-key"
+        Key: "--------------"
+  KMSKey0043a4799a6e3d40a0a2d6a872d8c8907300UJqsz:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::KMS::Key"
+    DeletionPolicy: "Retain"
+    Properties:
+      Origin: "AWS_KMS"
+      MultiRegion: false
+      Description: "Default key that protects my ACM private keys when no other key\
+        \ is defined"
+      KeyPolicy:
+        Version: "2012-10-17"
+        Statement:
+        - Condition:
+            StringEquals:
+              kms:CallerAccount: "799631054303"
+              kms:ViaService: "acm.us-east-1.amazonaws.com"
+            ForAllValues:StringEquals:
+              kms:GrantOperations: "Decrypt"
+            Bool:
+              kms:GrantIsForAWSResource: "true"
+          Resource: "*"
+          Action: "kms:CreateGrant"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allow creation of decryption grants"
+        - Condition:
+            StringEquals:
+              kms:CallerAccount: "799631054303"
+              kms:ViaService: "acm.us-east-1.amazonaws.com"
+            ForAllValues:StringEquals:
+              kms:GrantOperations:
+              - "Encrypt"
+              - "ReEncryptFrom"
+              - "ReEncryptTo"
+            Bool:
+              kms:GrantIsForAWSResource: "true"
+          Resource: "*"
+          Action: "kms:CreateGrant"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allow creation of encryption grant"
+        - Condition:
+            StringEquals:
+              kms:CallerAccount: "799631054303"
+          Resource: "*"
+          Action:
+          - "kms:DescribeKey"
+          - "kms:ListGrants"
+          - "kms:RevokeGrant"
+          - "kms:GetKeyPolicy"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allowed operations for the key owner"
+        - Condition:
+            Bool:
+              kms:ReEncryptOnSameKey: "false"
+          Resource: "*"
+          Action: "kms:ReEncrypt*"
+          Effect: "Deny"
+          Principal:
+            AWS: "*"
+          Sid: "Deny re-encryption to any other key"
+        - Condition:
+            StringEquals:
+              kms:CallerAccount: "799631054303"
+              kms:ViaService: "acm.us-east-1.amazonaws.com"
+          Resource: "*"
+          Action: "kms:Decrypt"
+          Effect: "Allow"
+          Principal:
+            AWS: "*"
+          Sid: "Allow decrypt"
+        Id: "auto-acm-4"
+      KeySpec: "SYMMETRIC_DEFAULT"
+      Enabled: true
+      KeyUsage: "ENCRYPT_DECRYPT"
+  EC2VolumeAttachment00vol0caf95ed61c0500c500seqqJ:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      InstanceId: "i-0303ddbfd1283dbd8"
+      VolumeId: "vol-0caf95ed61c0500c5"
+      Device: "/dev/xvda"
+  CloudWatchAlarm00InternalServerErrorsCloudServcies00B4BkU:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudWatch::Alarm"
+    DeletionPolicy: "Retain"
+    Properties:
+      ComparisonOperator: "GreaterThanOrEqualToThreshold"
+      Dimensions:
+      - Value: "d3cv0219t3uc3c"
+        Name: "App"
+      Period: 300
+      EvaluationPeriods: 2
+      Namespace: "AWS/AmplifyHosting"
+      OKActions: []
+      AlarmActions:
+      - Ref: "SNSTopic00AmplifyHostingMetricNotificationd3cv0219t3uc3c5xxErrorse3f8604700cR5sD"
+      MetricName: "5xxErrors"
+      ActionsEnabled: true
+      AlarmName: "Internal Server Errors (Cloud Servcies)"
+      Statistic: "Sum"
+      InsufficientDataActions: []
+      Tags: []
+      Threshold: 10
+  EC2VolumeAttachment00vol0937a535730e4b526009m199:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      InstanceId: "i-0caf912fc12efefe2"
+      VolumeId: "vol-0937a535730e4b526"
+      Device: "/dev/xvda"
+  CloudFrontOriginRequestPolicy0059781a5b390341f3afcbaf62929ccde100pQYHN:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "none"
+        Comment: "Policy for custom origin with CORS"
+        HeadersConfig:
+          HeaderBehavior: "whitelist"
+          Headers:
+          - "origin"
+        CookiesConfig:
+          CookieBehavior: "none"
+        Name: "Managed-CORS-CustomOrigin"
+  LambdaPermission00functionamplifyloginverifyauthchallenge0e46c3cb00Pxp44:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Lambda::Permission"
+    DeletionPolicy: "Retain"
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - "LambdaFunction00amplifyloginverifyauthchallenge0e46c3cb00fULvJ"
+        - "Arn"
+      Action: "lambda:InvokeFunction"
+      SourceArn: "arn:aws:cognito-idp:us-east-1:799631054303:userpool/us-east-1_v8rwDN5RZ"
+      Principal: "cognito-idp.amazonaws.com"
+  CloudFrontOriginRequestPolicy00b689b0a853d040abbaf268738e2966ac00RkfC8:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::CloudFront::OriginRequestPolicy"
+    DeletionPolicy: "Retain"
+    Properties:
+      OriginRequestPolicyConfig:
+        QueryStringsConfig:
+          QueryStringBehavior: "all"
+        Comment: "Policy to forward all parameters in viewer requests except for the\
+          \ Host header"
+        HeadersConfig:
+          HeaderBehavior: "allExcept"
+          Headers:
+          - "host"
+        CookiesConfig:
+          CookieBehavior: "all"
+        Name: "Managed-AllViewerExceptHostHeader"
+  IAMGroup00cmpe28200Xr6SY:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::IAM::Group"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupName: "cmpe282"
+      Path: "/"
+      ManagedPolicyArns:
+      - "arn:aws:iam::aws:policy/job-function/Billing"
+      - "arn:aws:iam::aws:policy/AWSBillingConductorReadOnlyAccess"
+      - "arn:aws:iam::aws:policy/AWSBillingReadOnlyAccess"
+      - "arn:aws:iam::aws:policy/AdministratorAccess"
+      Policies:
+      - PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            Resource: "arn:aws:iam::799631054303:role/UpdateApp"
+            Action: "sts:AssumeRole"
+            Effect: "Allow"
+        PolicyName: "allow-assume-S3-role-in-production"
+  AmplifyBranch00appsd3cv0219t3uc3cbranchesfrontend00hhqvw:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::Amplify::Branch"
+    DeletionPolicy: "Retain"
+    Properties:
+      Backend: {}
+      EnvironmentVariables:
+      - Value: "d3cv0219t3uc3c"
+        Name: "AMPLIFY_BACKEND_APP_ID"
+      - Value: "frontend"
+        Name: "USER_BRANCH"
+      - Value: "[{\"name\":\"Amplify CLI\",\"pkg\":\"@aws-amplify/cli\",\"type\":\"\
+          npm\",\"version\":\"latest\"}]"
+        Name: "_LIVE_UPDATES"
+      - Value: "frontend"
+        Name: "AMPLIFY_MONOREPO_APP_ROOT"
+      - Value: "false"
+        Name: "AMPLIFY_DIFF_DEPLOY"
+      AppId:
+        Fn::GetAtt:
+        - "AmplifyApp00appsd3cv0219t3uc3c00vxslJ"
+        - "AppId"
+      EnablePullRequestPreview: false
+      EnableAutoBuild: true
+      EnablePerformanceMode: false
+      Stage: "PRODUCTION"
+      BranchName: "frontend"
+      Framework: "Web"
