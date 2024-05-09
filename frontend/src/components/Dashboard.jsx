@@ -23,7 +23,9 @@ import {
   FormLabel,
   Textarea,
   useDisclosure,
-  Heading
+  Heading,
+  Spinner,
+  Center
 } from "@chakra-ui/react";
 import { DeleteIcon, DownloadIcon } from "@chakra-ui/icons";
 import Navbar from "./NavBar";
@@ -33,7 +35,7 @@ import axios from "axios";
 import { m } from "framer-motion";
 
 
-const baseURL ="http://34.193.57.242:8080";
+const baseURL = "http://34.193.57.242:8080";
 
 // Modal for adding descriptions to images
 const DescriptionModal = ({ isOpen, onClose, onSubmit }) => {
@@ -135,6 +137,7 @@ const Dashboard = () => {
     handleFetchUserAttributes();
   }, []);
 
+
   // Fetch images data
   useEffect(() => {
     if (!authUser) return;
@@ -190,7 +193,7 @@ const Dashboard = () => {
           title: "File too large",
           description: "Please choose a file smaller than 20 MB.",
           status: "warning",
-          duration: 5000,
+          duration: 3000,
           isClosable: true,
         });
         return;
@@ -418,6 +421,11 @@ const Dashboard = () => {
             accept="image/*"
           />
         </Flex>
+        {loading ? (
+          <Center height="100vh">
+            <Spinner size="xl" />
+          </Center>) : (
+
         <Grid templateColumns={gridTemplateColumns} gap={6} w="full">
           {filteredImages.map((image, index) => (
             <Box
@@ -481,6 +489,7 @@ const Dashboard = () => {
             </Box>
           ))}
         </Grid>
+        )}
         <Flex mt="8" mb="8" justify="center">
           {Array.from({ length: totalPages }, (_, i) => (
             <Button

@@ -1,0 +1,27 @@
+{
+    "AWSPolicyFormatVersion": "2023-05-09",
+    "RecordType": "A",
+    "Endpoints": {
+      "endpoint-failover-LmtL": {
+        "Type": "s3-website",
+        "Value": "https://failoversite282.s3.amazonaws.com/index.html",
+        "Region": "https://failoversite282.s3.amazonaws.com/index.html"
+      }
+    },
+    "Rules": {
+      "failover-start-ytmH": {
+        "RuleType": "failover",
+        "Primary": {
+          "EvaluateTargetHealth": true,
+          "HealthCheck": "cf2813d7-7d67-4b97-ba95-4ca7adba541b",
+          "EndpointReference": "endpoint-failover-LmtL"
+        },
+        "Secondary": {
+          "EvaluateTargetHealth": false,
+          "HealthCheck": "cf2813d7-7d67-4b97-ba95-4ca7adba541b",
+          "EndpointReference": "endpoint-failover-LmtL"
+        }
+      }
+    },
+    "StartRule": "failover-start-ytmH"
+  }

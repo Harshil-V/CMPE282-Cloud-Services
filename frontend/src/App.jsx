@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import Register from './components/Register';
 import Translation from './components/Translate';
 import Textract from './components/Textract';
+import NotFoundPage from './components/NoFound';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/translate" element={<Translation />} />
             <Route path="/textract" element={<Textract />} />
+            <Route path='*' element={<NotFoundPage/>}/>
         </Routes>
       </Router>
     </ChakraProvider>
