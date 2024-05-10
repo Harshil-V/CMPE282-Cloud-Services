@@ -34,7 +34,7 @@ const Textract = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(`${baseURL}/file/uploadTextractFile`, {}, formData, {
+      const response = await axios.post(`${baseURL}/file/uploadTextractFile`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
