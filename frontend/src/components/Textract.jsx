@@ -5,7 +5,7 @@ import {
 import axios from 'axios';
 import Navbar from './NavBar';
 
-const baseURL = "http://34.193.57.242:8080";
+const baseURL = "http://3.92.190.139:8080";
 
 const Textract = () => {
   const [file, setFile] = useState(null);
@@ -34,7 +34,7 @@ const Textract = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post(`${baseURL}/file/uploadTextractFile`, formData, {
+      const response = await axios.post(`${baseURL}/file/uploadTextractFile`, {}, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
